@@ -1,0 +1,4187 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나만의 자기주도학습 비밀노트</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+
+        :root {
+            /* 메인: 틸/민트 계열 */
+            --primary-50: #eef9f6;
+            --primary-100: #d1f0e8;
+            --primary-200: #a8e0d2;
+            --primary-300: #6dcdb5;
+            --primary-400: #3bb89a;
+            --primary-500: #22a47f;
+            --primary-600: #1a8868;
+            /* 보색: 코랄 (포인트용) */
+            --coral-50: #fff4f0;
+            --coral-100: #ffe0d6;
+            --coral-400: #ff8a6b;
+            --coral-500: #f06a4d;
+            /* 보색: 옐로우 */
+            --yellow-50: #fffbeb;
+            --yellow-100: #fff3c4;
+            --yellow-400: #fbbf24;
+            /* 보색: 라벤더 */
+            --lavender-50: #f3f0ff;
+            --lavender-100: #e4dffa;
+            --lavender-400: #9b8fef;
+            /* 베이스 */
+            --cream: #f9fafb;
+            --warm-gray: #f3f4f6;
+            --text-dark: #1f2937;
+            --text-mid: #4b5563;
+            --text-light: #9ca3af;
+            --card-shadow: 0 2px 16px rgba(34, 164, 127, 0.08);
+            --card-radius: 20px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Header ── */
+        .header {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(255, 251, 245, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--primary-100);
+            padding: 12px 20px;
+        }
+        .header-inner {
+            max-width: 520px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .header-title {
+            font-size: 15px; font-weight: 700; color: var(--primary-500);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .header-title i { font-size: 18px; }
+        .progress-bar {
+            width: 120px; height: 6px;
+            background: var(--primary-100); border-radius: 3px; overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%; background: linear-gradient(90deg, var(--primary-400), var(--primary-500));
+            border-radius: 3px; transition: width 0.4s ease;
+        }
+        .page-count {
+            font-size: 12px; color: var(--text-light); font-weight: 500;
+            margin-top: 2px; text-align: right;
+        }
+
+        /* ── Main Container ── */
+        .container {
+            max-width: 520px; margin: 0 auto;
+            padding: 0 20px 100px;
+        }
+
+        /* ── Pages ── */
+        .page {
+            display: none;
+            animation: fadeUp 0.4s ease;
+        }
+        .page.active { display: block; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Cards ── */
+        .card {
+            background: #fff;
+            border-radius: var(--card-radius);
+            padding: 28px 24px;
+            margin: 16px 0;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--primary-50);
+        }
+
+        /* ── Typography ── */
+        .page-label {
+            display: inline-block;
+            font-size: 11px; font-weight: 700;
+            color: var(--primary-500);
+            background: var(--primary-50);
+            padding: 4px 12px; border-radius: 20px;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+        .page-title {
+            font-size: 24px; font-weight: 800;
+            line-height: 1.35;
+            margin-bottom: 12px;
+            word-break: keep-all;
+        }
+        .page-subtitle {
+            font-size: 15px; color: var(--text-mid);
+            line-height: 1.65;
+            word-break: keep-all;
+        }
+        .section-title {
+            font-size: 17px; font-weight: 700;
+            margin-bottom: 12px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .section-title .icon {
+            width: 28px; height: 28px;
+            background: var(--primary-50);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; color: var(--primary-500);
+        }
+
+        /* ── Image Placeholder ── */
+        .img-placeholder {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, var(--primary-100), var(--primary-50));
+            border-radius: 16px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 8px;
+            color: var(--primary-300);
+            font-size: 13px; font-weight: 500;
+            margin: 16px 0;
+            border: 2px dashed var(--primary-200);
+        }
+        .img-placeholder i { font-size: 36px; }
+        .img-placeholder.hero {
+            aspect-ratio: 1/1;
+            max-height: 320px;
+            background: linear-gradient(160deg, #e0f7ef, #d1f0e8, #c4e8dc);
+            border: none;
+        }
+
+        /* ── Infographic Elements ── */
+        .compare-box {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+            margin: 16px 0;
+        }
+        .compare-item {
+            padding: 20px 16px;
+            border-radius: 16px;
+            text-align: center;
+        }
+        .compare-item.positive {
+            background: linear-gradient(135deg, var(--primary-50), #e0f7ef);
+            border: 1px solid var(--primary-200);
+        }
+        .compare-item.negative {
+            background: var(--warm-gray);
+            border: 1px solid #e8e4e0;
+        }
+        .compare-item .emoji { font-size: 32px; margin-bottom: 8px; }
+        .compare-item .label {
+            font-size: 13px; font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .compare-item .desc {
+            font-size: 12px; color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        .info-row {
+            display: flex; gap: 12px; align-items: flex-start;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--primary-50);
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-icon {
+            width: 40px; height: 40px; flex-shrink: 0;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+        }
+        .info-content { flex: 1; }
+        .info-content .title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+        .info-content .desc { font-size: 13px; color: var(--text-mid); line-height: 1.55; }
+
+        /* ── Motivation Level Visual ── */
+        .motivation-spectrum {
+            margin: 20px 0;
+            position: relative;
+        }
+        .spectrum-bar {
+            height: 12px;
+            border-radius: 6px;
+            background: linear-gradient(90deg, #e5e7eb, var(--yellow-400), var(--coral-400), var(--primary-500));
+        }
+        .spectrum-labels {
+            display: flex; justify-content: space-between;
+            margin-top: 8px;
+            font-size: 11px; color: var(--text-light); font-weight: 500;
+        }
+
+        /* ── Worksheet / Form ── */
+        .worksheet {
+            background: #fff;
+            border-radius: var(--card-radius);
+            padding: 24px 20px;
+            margin: 16px 0;
+            border: 2px solid var(--primary-200);
+        }
+        .worksheet-title {
+            font-size: 16px; font-weight: 800;
+            color: var(--primary-500);
+            margin-bottom: 4px;
+        }
+        .worksheet-desc {
+            font-size: 13px; color: var(--text-light);
+            margin-bottom: 20px;
+        }
+        .form-group { margin-bottom: 20px; }
+        .form-label {
+            font-size: 14px; font-weight: 700;
+            margin-bottom: 8px;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .form-label .num {
+            width: 22px; height: 22px;
+            background: var(--primary-500); color: #fff;
+            border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 11px; font-weight: 800;
+        }
+        textarea, input[type="text"] {
+            width: 100%;
+            border: 2px solid var(--primary-100);
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 14px;
+            font-family: 'Noto Sans KR', sans-serif;
+            color: var(--text-dark);
+            background: var(--primary-50);
+            transition: border-color 0.2s;
+            resize: vertical;
+        }
+        textarea:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-400);
+            background: #fff;
+        }
+        textarea { min-height: 80px; }
+
+        .chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
+        .chip {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 2px solid var(--primary-100);
+            background: #fff;
+            font-size: 13px; font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+        .chip:hover { border-color: var(--primary-300); }
+        .chip.selected {
+            background: var(--primary-500); color: #fff;
+            border-color: var(--primary-500);
+        }
+
+        /* ── Highlight Box ── */
+        .highlight-box {
+            background: linear-gradient(135deg, var(--primary-50), var(--yellow-50));
+            border-radius: 16px;
+            padding: 20px;
+            margin: 16px 0;
+            border-left: 4px solid var(--primary-400);
+        }
+        .highlight-box .title {
+            font-size: 14px; font-weight: 700;
+            color: var(--primary-600);
+            margin-bottom: 6px;
+        }
+        .highlight-box .desc {
+            font-size: 13px; color: var(--text-mid);
+            line-height: 1.6;
+        }
+
+        /* ── Tip Box ── */
+        .tip-box {
+            background: var(--primary-50);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin: 12px 0;
+            display: flex; gap: 12px; align-items: flex-start;
+        }
+        .tip-box .tip-icon {
+            font-size: 20px; flex-shrink: 0; margin-top: 2px;
+        }
+        .tip-box .tip-text {
+            font-size: 13px; color: var(--text-mid);
+            line-height: 1.6;
+        }
+
+        /* ── Navigation ── */
+        .nav-bar {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: rgba(255, 251, 245, 0.95);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid var(--primary-100);
+            padding: 12px 20px;
+            padding-bottom: max(12px, env(safe-area-inset-bottom));
+            z-index: 100;
+        }
+        .nav-inner {
+            max-width: 520px; margin: 0 auto;
+            display: flex; gap: 12px;
+        }
+        .btn {
+            flex: 1; padding: 14px 20px;
+            border-radius: 14px;
+            font-size: 15px; font-weight: 700;
+            border: none; cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-400), var(--primary-500));
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(232, 74, 138, 0.25);
+        }
+        .btn-primary:active { transform: scale(0.97); }
+        .btn-secondary {
+            background: var(--warm-gray);
+            color: var(--text-mid);
+        }
+        .btn-secondary:active { background: var(--primary-100); }
+
+        /* ── K-SRL Mini ── */
+        .srl-question {
+            padding: 16px 0;
+            border-bottom: 1px solid var(--primary-50);
+        }
+        .srl-question:last-child { border-bottom: none; }
+        .srl-q-text {
+            font-size: 14px; font-weight: 500;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        .srl-q-num {
+            font-size: 12px; font-weight: 800;
+            color: var(--primary-500);
+            margin-bottom: 4px;
+        }
+        .scale-row {
+            display: flex; gap: 6px;
+        }
+        .scale-btn {
+            flex: 1; height: 40px;
+            border-radius: 10px;
+            border: 2px solid var(--primary-100);
+            background: #fff;
+            font-size: 13px; font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .scale-btn:hover { border-color: var(--primary-300); }
+        .scale-btn.selected {
+            background: var(--primary-500); color: #fff;
+            border-color: var(--primary-500);
+        }
+        .scale-labels {
+            display: flex; justify-content: space-between;
+            margin-top: 4px;
+            font-size: 10px; color: var(--text-light);
+        }
+
+        /* ── Result Card ── */
+        .result-card {
+            background: linear-gradient(160deg, var(--primary-50), #f0faf6, #fff);
+            border-radius: var(--card-radius);
+            padding: 28px 24px;
+            margin: 16px 0;
+            text-align: center;
+            border: 2px solid var(--primary-200);
+        }
+        .result-persona {
+            font-size: 28px; font-weight: 900;
+            color: var(--primary-600);
+            margin: 12px 0 8px;
+        }
+        .result-desc {
+            font-size: 14px; color: var(--text-mid);
+            line-height: 1.6;
+        }
+        .badge-row {
+            display: flex; justify-content: center; gap: 8px;
+            margin-top: 16px; flex-wrap: wrap;
+        }
+        .badge {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px; font-weight: 700;
+        }
+        .badge.high { background: var(--primary-100); color: var(--primary-600); }
+        .badge.low { background: var(--warm-gray); color: var(--text-light); }
+
+        /* ── Summary List ── */
+        .summary-list {
+            margin: 16px 0;
+        }
+        .summary-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--primary-50);
+        }
+        .summary-item:last-child { border-bottom: none; }
+        .summary-num {
+            width: 32px; height: 32px;
+            background: var(--primary-500); color: #fff;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: 800;
+            flex-shrink: 0;
+        }
+        .summary-text {
+            font-size: 14px; font-weight: 500;
+            line-height: 1.5;
+        }
+
+        /* ── Responsive ── */
+        @media (min-width: 768px) {
+            .container { padding: 0 32px 100px; }
+            .card { padding: 36px 32px; }
+            .page-title { font-size: 28px; }
+            .compare-box { gap: 16px; }
+        }
+
+        @media (max-width: 360px) {
+            .page-title { font-size: 21px; }
+            .card { padding: 22px 18px; }
+            .compare-box { grid-template-columns: 1fr; }
+        }
+    
+
+/* ── lesson2 고유 스타일 ── */
+
+        :root {
+            --primary-50: #eef9f6;
+            --primary-100: #d1f0e8;
+            --primary-200: #a8e0d2;
+            --primary-300: #6dcdb5;
+            --primary-400: #3bb89a;
+            --primary-500: #22a47f;
+            --primary-600: #1a8868;
+            --coral-50: #fff4f0;
+            --coral-100: #ffe0d6;
+            --coral-400: #ff8a6b;
+            --coral-500: #f06a4d;
+            --yellow-50: #fffbeb;
+            --yellow-100: #fff3c4;
+            --yellow-400: #fbbf24;
+            --lavender-50: #f3f0ff;
+            --lavender-100: #e4dffa;
+            --lavender-400: #9b8fef;
+            --cream: #f9fafb;
+            --warm-gray: #f3f4f6;
+            --text-dark: #1f2937;
+            --text-mid: #4b5563;
+            --text-light: #9ca3af;
+            --card-shadow: 0 2px 16px rgba(34, 164, 127, 0.08);
+            --card-radius: 20px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .header {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(249, 250, 251, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--primary-100);
+            padding: 12px 20px;
+        }
+        .header-inner {
+            max-width: 520px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .header-title {
+            font-size: 15px; font-weight: 700; color: var(--primary-500);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .header-title i { font-size: 18px; }
+        .progress-bar {
+            width: 120px; height: 6px;
+            background: var(--primary-100); border-radius: 3px; overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%; background: linear-gradient(90deg, var(--primary-400), var(--primary-500));
+            border-radius: 3px; transition: width 0.4s ease;
+        }
+        .page-count {
+            font-size: 12px; color: var(--text-light); font-weight: 500;
+            margin-top: 2px; text-align: right;
+        }
+
+        .container {
+            max-width: 520px; margin: 0 auto;
+            padding: 0 20px 100px;
+        }
+
+        .page { display: none; animation: fadeUp 0.4s ease; }
+        .page.active { display: block; }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: #fff;
+            border-radius: var(--card-radius);
+            padding: 28px 24px;
+            margin: 16px 0;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--primary-50);
+        }
+
+        .page-label {
+            display: inline-block;
+            font-size: 11px; font-weight: 700;
+            color: var(--primary-500);
+            background: var(--primary-50);
+            padding: 4px 12px; border-radius: 20px;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+        .page-title {
+            font-size: 24px; font-weight: 800;
+            line-height: 1.35; margin-bottom: 12px;
+            word-break: keep-all;
+        }
+        .page-subtitle {
+            font-size: 15px; color: var(--text-mid);
+            line-height: 1.65; word-break: keep-all;
+        }
+        .section-title {
+            font-size: 17px; font-weight: 700;
+            margin-bottom: 12px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .section-title .icon {
+            width: 28px; height: 28px;
+            background: var(--primary-50);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; color: var(--primary-500);
+        }
+
+        .img-placeholder {
+            width: 100%; aspect-ratio: 4/3;
+            background: linear-gradient(135deg, var(--primary-100), var(--primary-50));
+            border-radius: 16px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 8px;
+            color: var(--primary-300);
+            font-size: 13px; font-weight: 500;
+            margin: 16px 0;
+            border: 2px dashed var(--primary-200);
+        }
+        .img-placeholder i { font-size: 36px; }
+        .img-placeholder.hero {
+            aspect-ratio: 1/1; max-height: 320px;
+            background: linear-gradient(160deg, #e0f7ef, #d1f0e8, #c4e8dc);
+            border: none;
+        }
+
+        /* ── 3단계 사이클 ── */
+        .cycle-container {
+            display: flex; align-items: center; justify-content: center;
+            gap: 8px; margin: 24px 0; flex-wrap: wrap;
+        }
+        .cycle-step {
+            flex: 1; min-width: 90px;
+            text-align: center;
+            padding: 20px 12px;
+            border-radius: 16px;
+            position: relative;
+        }
+        .cycle-step .emoji { font-size: 32px; margin-bottom: 8px; }
+        .cycle-step .label { font-size: 14px; font-weight: 800; margin-bottom: 4px; }
+        .cycle-step .desc { font-size: 11px; color: var(--text-light); line-height: 1.4; }
+        .cycle-step.step-pre { background: var(--yellow-50); border: 2px solid var(--yellow-100); }
+        .cycle-step.step-pre .label { color: #b45309; }
+        .cycle-step.step-class { background: var(--coral-50); border: 2px solid var(--coral-100); }
+        .cycle-step.step-class .label { color: var(--coral-500); }
+        .cycle-step.step-review { background: var(--primary-50); border: 2px solid var(--primary-100); }
+        .cycle-step.step-review .label { color: var(--primary-600); }
+        .cycle-arrow {
+            font-size: 20px; color: var(--primary-300); flex-shrink: 0;
+        }
+
+        /* ── 코넬노트 구조도 ── */
+        .cornell-diagram {
+            border: 3px solid var(--primary-400);
+            border-radius: 16px;
+            overflow: hidden;
+            margin: 16px 0;
+        }
+        .cornell-header {
+            background: var(--primary-500); color: #fff;
+            padding: 12px 16px;
+            font-size: 14px; font-weight: 700;
+            text-align: center;
+        }
+        .cornell-body {
+            display: grid;
+            grid-template-columns: 1fr 2.5fr;
+            min-height: 200px;
+        }
+        .cornell-cue {
+            background: var(--yellow-50);
+            border-right: 2px solid var(--primary-200);
+            padding: 16px 12px;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center;
+        }
+        .cornell-cue .zone-title {
+            font-size: 12px; font-weight: 800;
+            color: #b45309; margin-bottom: 6px;
+        }
+        .cornell-cue .zone-desc {
+            font-size: 11px; color: var(--text-light);
+            line-height: 1.4;
+        }
+        .cornell-note {
+            background: #fff;
+            padding: 16px;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center;
+        }
+        .cornell-note .zone-title {
+            font-size: 12px; font-weight: 800;
+            color: var(--primary-600); margin-bottom: 6px;
+        }
+        .cornell-note .zone-desc {
+            font-size: 11px; color: var(--text-light);
+            line-height: 1.4;
+        }
+        .cornell-summary {
+            background: var(--lavender-50);
+            border-top: 2px solid var(--primary-200);
+            padding: 14px 16px;
+            text-align: center;
+        }
+        .cornell-summary .zone-title {
+            font-size: 12px; font-weight: 800;
+            color: var(--lavender-400); margin-bottom: 4px;
+        }
+        .cornell-summary .zone-desc {
+            font-size: 11px; color: var(--text-light);
+            line-height: 1.4;
+        }
+
+        /* ── 코넬노트 실습 ── */
+        .cornell-practice {
+            border: 3px solid var(--primary-300);
+            border-radius: 16px;
+            overflow: hidden;
+            margin: 16px 0;
+        }
+        .cornell-practice .cornell-header {
+            background: var(--primary-400);
+        }
+        .cornell-practice .cornell-body {
+            min-height: 240px;
+        }
+        .cornell-practice textarea {
+            width: 100%; height: 100%; min-height: 120px;
+            border: none; padding: 12px;
+            font-size: 13px;
+            font-family: 'Noto Sans KR', sans-serif;
+            color: var(--text-dark);
+            resize: vertical;
+            background: transparent;
+        }
+        .cornell-practice textarea:focus { outline: none; }
+        .cornell-practice textarea::placeholder { color: var(--text-light); }
+        .cornell-practice .cornell-cue { background: var(--yellow-50); }
+        .cornell-practice .cornell-note { background: #fff; }
+        .cornell-practice .cornell-summary {
+            background: var(--lavender-50);
+            border-top: 2px solid var(--primary-200);
+            padding: 0;
+        }
+        .cornell-practice .cornell-summary textarea {
+            background: transparent;
+            min-height: 70px;
+        }
+
+        /* ── Checklist ── */
+        .checklist { margin: 16px 0; }
+        .check-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 14px 16px;
+            background: #fff;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            border: 1px solid var(--primary-50);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+        .check-item:active { transform: scale(0.98); }
+        .check-box {
+            width: 24px; height: 24px; flex-shrink: 0;
+            border-radius: 8px;
+            border: 2px solid var(--primary-200);
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s;
+            font-size: 12px; color: transparent;
+        }
+        .check-item.checked .check-box {
+            background: var(--primary-500);
+            border-color: var(--primary-500);
+            color: #fff;
+        }
+        .check-item.checked .check-text {
+            text-decoration: line-through;
+            color: var(--text-light);
+        }
+        .check-text {
+            font-size: 14px; font-weight: 500;
+            line-height: 1.4;
+        }
+
+        /* ── Info / Compare / Highlight / Tip ── */
+        .info-row {
+            display: flex; gap: 12px; align-items: flex-start;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--primary-50);
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-icon {
+            width: 40px; height: 40px; flex-shrink: 0;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+        }
+        .info-content { flex: 1; }
+        .info-content .title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+        .info-content .desc { font-size: 13px; color: var(--text-mid); line-height: 1.55; }
+
+        .compare-box {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+            margin: 16px 0;
+        }
+        .compare-item {
+            padding: 20px 16px; border-radius: 16px; text-align: center;
+        }
+        .compare-item.positive {
+            background: linear-gradient(135deg, var(--primary-50), #e0f7ef);
+            border: 1px solid var(--primary-200);
+        }
+        .compare-item.negative {
+            background: var(--warm-gray);
+            border: 1px solid #e5e7eb;
+        }
+        .compare-item .emoji { font-size: 32px; margin-bottom: 8px; }
+        .compare-item .label { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+        .compare-item .desc { font-size: 12px; color: var(--text-light); line-height: 1.5; }
+
+        .highlight-box {
+            background: linear-gradient(135deg, var(--primary-50), var(--yellow-50));
+            border-radius: 16px; padding: 20px; margin: 16px 0;
+            border-left: 4px solid var(--primary-400);
+        }
+        .highlight-box .title {
+            font-size: 14px; font-weight: 700;
+            color: var(--primary-600); margin-bottom: 6px;
+        }
+        .highlight-box .desc {
+            font-size: 13px; color: var(--text-mid); line-height: 1.6;
+        }
+
+        .tip-box {
+            background: var(--primary-50);
+            border-radius: 16px; padding: 16px 20px;
+            margin: 12px 0;
+            display: flex; gap: 12px; align-items: flex-start;
+        }
+        .tip-box .tip-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+        .tip-box .tip-text { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
+
+        /* ── Number Step ── */
+        .step-list { margin: 16px 0; }
+        .step-item {
+            display: flex; gap: 14px; align-items: flex-start;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--primary-50);
+        }
+        .step-item:last-child { border-bottom: none; }
+        .step-num {
+            width: 32px; height: 32px; flex-shrink: 0;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: 800; color: #fff;
+        }
+        .step-content { flex: 1; }
+        .step-content .title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+        .step-content .desc { font-size: 13px; color: var(--text-mid); line-height: 1.55; }
+
+        /* ── Summary List ── */
+        .summary-list { margin: 16px 0; }
+        .summary-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--primary-50);
+        }
+        .summary-item:last-child { border-bottom: none; }
+        .summary-num {
+            width: 32px; height: 32px;
+            background: var(--primary-500); color: #fff;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: 800; flex-shrink: 0;
+        }
+        .summary-text {
+            font-size: 14px; font-weight: 500; line-height: 1.5;
+        }
+
+        /* ── Navigation ── */
+        .nav-bar {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: rgba(249, 250, 251, 0.95);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid var(--primary-100);
+            padding: 12px 20px;
+            padding-bottom: max(12px, env(safe-area-inset-bottom));
+            z-index: 100;
+        }
+        .nav-inner {
+            max-width: 520px; margin: 0 auto;
+            display: flex; gap: 12px;
+        }
+        .btn {
+            flex: 1; padding: 14px 20px;
+            border-radius: 14px;
+            font-size: 15px; font-weight: 700;
+            border: none; cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-400), var(--primary-500));
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(34, 164, 127, 0.25);
+        }
+        .btn-primary:active { transform: scale(0.97); }
+        .btn-secondary { background: var(--warm-gray); color: var(--text-mid); }
+        .btn-secondary:active { background: var(--primary-100); }
+
+        /* ── Responsive ── */
+        @media (min-width: 768px) {
+            .container { padding: 0 32px 100px; }
+            .card { padding: 36px 32px; }
+            .page-title { font-size: 28px; }
+        }
+        @media (max-width: 360px) {
+            .page-title { font-size: 21px; }
+            .card { padding: 22px 18px; }
+            .compare-box { grid-template-columns: 1fr; }
+            .cycle-container { flex-direction: column; }
+            .cycle-arrow { transform: rotate(90deg); }
+        }
+    
+
+/* ── lesson3 고유 스타일 ── */
+
+        :root {
+            --primary-50: #eef9f6;
+            --primary-100: #d1f0e8;
+            --primary-200: #a8e0d2;
+            --primary-300: #6dcdb5;
+            --primary-400: #3bb89a;
+            --primary-500: #22a47f;
+            --primary-600: #1a8868;
+            --coral-50: #fff4f0;
+            --coral-100: #ffe0d6;
+            --coral-400: #ff8a6b;
+            --coral-500: #f06a4d;
+            --yellow-50: #fffbeb;
+            --yellow-100: #fff3c4;
+            --yellow-400: #fbbf24;
+            --lavender-50: #f3f0ff;
+            --lavender-100: #e4dffa;
+            --lavender-400: #9b8fef;
+            --cream: #f9fafb;
+            --warm-gray: #f3f4f6;
+            --text-dark: #1f2937;
+            --text-mid: #4b5563;
+            --text-light: #9ca3af;
+            --card-shadow: 0 2px 16px rgba(34, 164, 127, 0.08);
+            --card-radius: 20px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: var(--cream); color: var(--text-dark);
+            min-height: 100vh; -webkit-font-smoothing: antialiased;
+        }
+
+        .header {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(249,250,251,0.92); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--primary-100); padding: 12px 20px;
+        }
+        .header-inner { max-width: 520px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+        .header-title { font-size: 15px; font-weight: 700; color: var(--primary-500); display: flex; align-items: center; gap: 8px; }
+        .header-title i { font-size: 18px; }
+        .progress-bar { width: 120px; height: 6px; background: var(--primary-100); border-radius: 3px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary-400), var(--primary-500)); border-radius: 3px; transition: width 0.4s ease; }
+        .page-count { font-size: 12px; color: var(--text-light); font-weight: 500; margin-top: 2px; text-align: right; }
+
+        .container { max-width: 520px; margin: 0 auto; padding: 0 20px 100px; }
+        .page { display: none; animation: fadeUp 0.4s ease; }
+        .page.active { display: block; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+        .card { background: #fff; border-radius: var(--card-radius); padding: 28px 24px; margin: 16px 0; box-shadow: var(--card-shadow); border: 1px solid var(--primary-50); }
+        .page-label { display: inline-block; font-size: 11px; font-weight: 700; color: var(--primary-500); background: var(--primary-50); padding: 4px 12px; border-radius: 20px; margin-bottom: 12px; letter-spacing: 0.5px; }
+        .page-title { font-size: 24px; font-weight: 800; line-height: 1.35; margin-bottom: 12px; word-break: keep-all; }
+        .page-subtitle { font-size: 15px; color: var(--text-mid); line-height: 1.65; word-break: keep-all; }
+        .section-title { font-size: 17px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .section-title .icon { width: 28px; height: 28px; background: var(--primary-50); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--primary-500); }
+
+        .img-placeholder { width: 100%; aspect-ratio: 4/3; background: linear-gradient(135deg, var(--primary-100), var(--primary-50)); border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--primary-300); font-size: 13px; font-weight: 500; margin: 16px 0; border: 2px dashed var(--primary-200); }
+        .img-placeholder i { font-size: 36px; }
+        .img-placeholder.hero { aspect-ratio: 1/1; max-height: 320px; background: linear-gradient(160deg, #e0f7ef, #d1f0e8, #c4e8dc); border: none; }
+
+        /* ── 망각곡선 그래프 ── */
+        .forgetting-curve {
+            background: #fff; border-radius: 16px; padding: 24px 20px;
+            margin: 16px 0; border: 1px solid var(--primary-100);
+        }
+        .curve-chart {
+            position: relative; height: 200px;
+            margin: 16px 0;
+            border-left: 2px solid var(--text-light);
+            border-bottom: 2px solid var(--text-light);
+        }
+        .curve-y-label {
+            position: absolute; left: -8px; font-size: 10px; color: var(--text-light); font-weight: 600;
+            transform: translateX(-100%);
+        }
+        .curve-x-label {
+            position: absolute; bottom: -20px; font-size: 10px; color: var(--text-light); font-weight: 600;
+            transform: translateX(-50%);
+        }
+        .curve-line {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        }
+        .curve-dot {
+            position: absolute; width: 10px; height: 10px;
+            border-radius: 50%; border: 2px solid #fff;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+            transform: translate(-50%, -50%);
+        }
+        .curve-dot-label {
+            position: absolute; font-size: 11px; font-weight: 700;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+
+        /* ── 다중저장고 모형 ── */
+        .memory-flow {
+            display: flex; align-items: center; justify-content: center;
+            gap: 6px; margin: 20px 0; flex-wrap: wrap;
+        }
+        .memory-box {
+            text-align: center; padding: 16px 10px;
+            border-radius: 14px; flex: 1; min-width: 80px;
+        }
+        .memory-box .emoji { font-size: 24px; margin-bottom: 6px; }
+        .memory-box .label { font-size: 12px; font-weight: 800; margin-bottom: 4px; }
+        .memory-box .time { font-size: 10px; color: var(--text-light); }
+        .memory-arrow { font-size: 16px; color: var(--primary-300); flex-shrink: 0; }
+
+        /* ── 복습 타임라인 ── */
+        .timeline { margin: 20px 0; padding-left: 20px; position: relative; }
+        .timeline::before {
+            content: ''; position: absolute; left: 14px; top: 0; bottom: 0;
+            width: 3px; background: var(--primary-100); border-radius: 2px;
+        }
+        .timeline-item {
+            position: relative; padding: 0 0 24px 28px;
+        }
+        .timeline-item:last-child { padding-bottom: 0; }
+        .timeline-dot {
+            position: absolute; left: -7px; top: 4px;
+            width: 16px; height: 16px; border-radius: 50%;
+            border: 3px solid #fff; box-shadow: 0 0 0 2px var(--primary-400);
+        }
+        .timeline-content {
+            background: #fff; border-radius: 14px; padding: 16px;
+            border: 1px solid var(--primary-50);
+            box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+        }
+        .timeline-time {
+            font-size: 12px; font-weight: 800; margin-bottom: 4px;
+        }
+        .timeline-desc { font-size: 13px; color: var(--text-mid); line-height: 1.5; }
+
+        /* ── 암기법 카드 ── */
+        .method-cards { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
+        .method-card {
+            display: flex; gap: 14px; align-items: flex-start;
+            padding: 18px 16px; border-radius: 16px;
+            background: #fff; border: 1px solid var(--primary-50);
+            box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+            cursor: pointer; transition: all 0.2s;
+        }
+        .method-card:active { transform: scale(0.98); }
+        .method-icon {
+            width: 44px; height: 44px; flex-shrink: 0;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px;
+        }
+        .method-content { flex: 1; }
+        .method-content .title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+        .method-content .desc { font-size: 13px; color: var(--text-mid); line-height: 1.5; }
+        .method-content .example {
+            font-size: 12px; color: var(--primary-600);
+            background: var(--primary-50); padding: 8px 12px;
+            border-radius: 8px; margin-top: 8px; line-height: 1.5;
+            display: none;
+        }
+        .method-card.open .method-content .example { display: block; }
+        .method-toggle {
+            font-size: 12px; color: var(--text-light); flex-shrink: 0;
+            margin-top: 2px; transition: transform 0.2s;
+        }
+        .method-card.open .method-toggle { transform: rotate(180deg); }
+
+        /* ── AI 도구 카드 ── */
+        .tool-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+            margin: 16px 0;
+        }
+        .tool-card {
+            background: #fff; border-radius: 16px; padding: 20px 16px;
+            text-align: center; border: 1px solid var(--primary-50);
+            box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+        }
+        .tool-card .emoji { font-size: 32px; margin-bottom: 8px; }
+        .tool-card .name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+        .tool-card .desc { font-size: 12px; color: var(--text-light); line-height: 1.4; }
+
+        /* ── 워크시트 ── */
+        .worksheet {
+            background: #fff; border-radius: var(--card-radius); padding: 24px 20px;
+            margin: 16px 0; border: 2px solid var(--primary-200);
+        }
+        .worksheet-title { font-size: 16px; font-weight: 800; color: var(--primary-500); margin-bottom: 4px; }
+        .worksheet-desc { font-size: 13px; color: var(--text-light); margin-bottom: 20px; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { font-size: 14px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        .form-label .num { width: 22px; height: 22px; background: var(--primary-500); color: #fff; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; }
+        textarea, input[type="text"] {
+            width: 100%; border: 2px solid var(--primary-100); border-radius: 12px;
+            padding: 14px 16px; font-size: 14px; font-family: 'Noto Sans KR', sans-serif;
+            color: var(--text-dark); background: var(--primary-50); transition: border-color 0.2s; resize: vertical;
+        }
+        textarea:focus, input[type="text"]:focus { outline: none; border-color: var(--primary-400); background: #fff; }
+        textarea { min-height: 80px; }
+
+        /* ── 복습 스케줄 테이블 ── */
+        .schedule-table {
+            width: 100%; border-collapse: separate; border-spacing: 0;
+            border-radius: 12px; overflow: hidden;
+            border: 2px solid var(--primary-200);
+            margin: 16px 0;
+        }
+        .schedule-table th {
+            background: var(--primary-500); color: #fff;
+            padding: 10px 8px; font-size: 12px; font-weight: 700;
+            text-align: center;
+        }
+        .schedule-table td {
+            padding: 10px 8px; font-size: 13px; text-align: center;
+            border-bottom: 1px solid var(--primary-50);
+            background: #fff;
+        }
+        .schedule-table tr:last-child td { border-bottom: none; }
+        .schedule-table input[type="text"] {
+            width: 100%; border: none; background: transparent;
+            text-align: center; padding: 4px; font-size: 12px;
+            font-family: 'Noto Sans KR', sans-serif;
+            color: var(--text-dark);
+        }
+        .schedule-table input[type="text"]:focus {
+            outline: none; background: var(--primary-50); border-radius: 6px;
+        }
+
+        /* ── Common ── */
+        .info-row { display: flex; gap: 12px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--primary-50); }
+        .info-row:last-child { border-bottom: none; }
+        .info-icon { width: 40px; height: 40px; flex-shrink: 0; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .info-content { flex: 1; }
+        .info-content .title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+        .info-content .desc { font-size: 13px; color: var(--text-mid); line-height: 1.55; }
+
+        .highlight-box { background: linear-gradient(135deg, var(--primary-50), var(--yellow-50)); border-radius: 16px; padding: 20px; margin: 16px 0; border-left: 4px solid var(--primary-400); }
+        .highlight-box .title { font-size: 14px; font-weight: 700; color: var(--primary-600); margin-bottom: 6px; }
+        .highlight-box .desc { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
+
+        .tip-box { background: var(--primary-50); border-radius: 16px; padding: 16px 20px; margin: 12px 0; display: flex; gap: 12px; align-items: flex-start; }
+        .tip-box .tip-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+        .tip-box .tip-text { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
+
+        .summary-list { margin: 16px 0; }
+        .summary-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--primary-50); }
+        .summary-item:last-child { border-bottom: none; }
+        .summary-num { width: 32px; height: 32px; background: var(--primary-500); color: #fff; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; flex-shrink: 0; }
+        .summary-text { font-size: 14px; font-weight: 500; line-height: 1.5; }
+
+        .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(249,250,251,0.95); backdrop-filter: blur(12px); border-top: 1px solid var(--primary-100); padding: 12px 20px; padding-bottom: max(12px, env(safe-area-inset-bottom)); z-index: 100; }
+        .nav-inner { max-width: 520px; margin: 0 auto; display: flex; gap: 12px; }
+        .btn { flex: 1; padding: 14px 20px; border-radius: 14px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; transition: all 0.2s; font-family: 'Noto Sans KR', sans-serif; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary-400), var(--primary-500)); color: #fff; box-shadow: 0 4px 16px rgba(34,164,127,0.25); }
+        .btn-primary:active { transform: scale(0.97); }
+        .btn-secondary { background: var(--warm-gray); color: var(--text-mid); }
+        .btn-secondary:active { background: var(--primary-100); }
+
+        @media (min-width: 768px) { .container { padding: 0 32px 100px; } .card { padding: 36px 32px; } .page-title { font-size: 28px; } }
+        @media (max-width: 360px) {
+            .page-title { font-size: 21px; } .card { padding: 22px 18px; }
+            .memory-flow { flex-direction: column; }
+            .memory-arrow { transform: rotate(90deg); }
+            .tool-grid { grid-template-columns: 1fr; }
+        }
+    
+
+/* ── lesson4 고유 스타일 ── */
+
+        :root {
+            --primary-50: #eef9f6; --primary-100: #d1f0e8; --primary-200: #a8e0d2;
+            --primary-300: #6dcdb5; --primary-400: #3bb89a; --primary-500: #22a47f; --primary-600: #1a8868;
+            --coral-50: #fff4f0; --coral-100: #ffe0d6; --coral-400: #ff8a6b; --coral-500: #f06a4d;
+            --yellow-50: #fffbeb; --yellow-100: #fff3c4; --yellow-400: #fbbf24;
+            --lavender-50: #f3f0ff; --lavender-100: #e4dffa; --lavender-400: #9b8fef;
+            --cream: #f9fafb; --warm-gray: #f3f4f6;
+            --text-dark: #1f2937; --text-mid: #4b5563; --text-light: #9ca3af;
+            --card-shadow: 0 2px 16px rgba(34,164,127,0.08); --card-radius: 20px;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans KR', sans-serif; background: var(--cream); color: var(--text-dark); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+
+        .header { position: sticky; top: 0; z-index: 100; background: rgba(249,250,251,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--primary-100); padding: 12px 20px; }
+        .header-inner { max-width: 520px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+        .header-title { font-size: 15px; font-weight: 700; color: var(--primary-500); display: flex; align-items: center; gap: 8px; }
+        .header-title i { font-size: 18px; }
+        .progress-bar { width: 120px; height: 6px; background: var(--primary-100); border-radius: 3px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary-400), var(--primary-500)); border-radius: 3px; transition: width 0.4s ease; }
+        .page-count { font-size: 12px; color: var(--text-light); font-weight: 500; margin-top: 2px; text-align: right; }
+
+        .container { max-width: 520px; margin: 0 auto; padding: 0 20px 100px; }
+        .page { display: none; animation: fadeUp 0.4s ease; }
+        .page.active { display: block; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+        .card { background: #fff; border-radius: var(--card-radius); padding: 28px 24px; margin: 16px 0; box-shadow: var(--card-shadow); border: 1px solid var(--primary-50); }
+        .page-label { display: inline-block; font-size: 11px; font-weight: 700; color: var(--primary-500); background: var(--primary-50); padding: 4px 12px; border-radius: 20px; margin-bottom: 12px; letter-spacing: 0.5px; }
+        .page-title { font-size: 24px; font-weight: 800; line-height: 1.35; margin-bottom: 12px; word-break: keep-all; }
+        .page-subtitle { font-size: 15px; color: var(--text-mid); line-height: 1.65; word-break: keep-all; }
+        .section-title { font-size: 17px; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .section-title .icon { width: 28px; height: 28px; background: var(--primary-50); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--primary-500); }
+
+        .img-placeholder { width: 100%; background: linear-gradient(135deg, var(--primary-100), var(--primary-50)); border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--primary-300); font-size: 13px; font-weight: 500; margin: 16px 0; border: 2px dashed var(--primary-200); padding: 20px; text-align: center; line-height: 1.5; }
+        .img-placeholder i { font-size: 36px; }
+
+        /* ── 불안 레벨 슬라이더 ── */
+        .anxiety-meter { margin: 20px 0; }
+        .meter-bar-bg { height: 16px; border-radius: 8px; position: relative; background: linear-gradient(90deg, var(--primary-400), var(--yellow-400), var(--coral-400), var(--coral-500)); }
+        .meter-range { width: 100%; -webkit-appearance: none; appearance: none; height: 16px; border-radius: 8px; outline: none; background: transparent; position: absolute; top: 0; left: 0; z-index: 3; cursor: pointer; margin: 0; }
+        .meter-range::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; border-radius: 50%; background: #fff; border: 3px solid var(--primary-500); box-shadow: 0 2px 8px rgba(0,0,0,0.15); cursor: grab; }
+        .meter-labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: 11px; color: var(--text-light); font-weight: 500; }
+        .meter-value { text-align: center; margin-top: 8px; font-size: 20px; font-weight: 800; color: var(--primary-500); }
+
+        /* ── 호흡법 ── */
+        .breath-circle-wrap { display: flex; justify-content: center; align-items: center; padding: 28px 0; }
+        .breath-circle { width: 150px; height: 150px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-100), var(--primary-200)); display: flex; flex-direction: column; align-items: center; justify-content: center; border: 4px solid var(--primary-400); transition: all 1s ease; cursor: pointer; }
+        .breath-circle.inhale { transform: scale(1.25); background: linear-gradient(135deg, var(--primary-200), var(--primary-300)); border-color: var(--primary-500); }
+        .breath-circle.exhale { transform: scale(0.85); background: linear-gradient(135deg, var(--primary-50), var(--primary-100)); border-color: var(--primary-300); }
+        .breath-text { font-size: 16px; font-weight: 800; color: var(--primary-600); }
+        .breath-sub { font-size: 12px; color: var(--primary-500); margin-top: 4px; }
+
+        /* ── 4단계 탭 (p5, p7 공통) ── */
+        .week-tabs { display: flex; gap: 4px; margin: 16px 0 12px; }
+        .week-tab { flex: 1; padding: 10px 2px; border-radius: 10px; text-align: center; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; border: 2px solid var(--primary-100); background: #fff; color: var(--text-mid); word-break: keep-all; }
+        .week-tab.active { background: var(--primary-500); color: #fff; border-color: var(--primary-500); }
+        .week-tab .week-num { font-size: 10px; font-weight: 600; margin-bottom: 2px; }
+        .week-panel { display: none; animation: fadeUp 0.3s ease; }
+        .week-panel.active { display: block; }
+
+        /* ── 체크리스트 & 투두 보드 ── */
+        .checklist { margin: 12px 0; }
+        .check-item { display: flex; align-items: flex-start; gap: 10px; padding: 12px; background: #fff; border-radius: 12px; margin-bottom: 8px; border: 1px solid var(--primary-50); box-shadow: 0 1px 4px rgba(0,0,0,0.03); cursor: pointer; transition: all 0.2s; user-select: none; }
+        .check-item:active { transform: scale(0.98); }
+        .check-box { width: 22px; height: 22px; flex-shrink: 0; border-radius: 6px; border: 2px solid var(--primary-200); display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-size: 11px; color: transparent; margin-top: 2px; }
+        .check-item.checked .check-box { background: var(--primary-500); border-color: var(--primary-500); color: #fff; }
+        .check-item.checked .check-content input { text-decoration: line-through; color: var(--text-light); opacity: 0.7; }
+        .check-content { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+        .check-content input { width: 100%; border: none; background: transparent; font-family: 'Noto Sans KR', sans-serif; color: var(--text-dark); transition: all 0.2s; }
+        .check-content input:focus { outline: none; border-bottom: 1px solid var(--primary-400); }
+        .check-content input::placeholder { color: var(--text-light); }
+        
+        .check-category { font-size: 12px; font-weight: 700; padding: 8px 0 4px; margin-top: 8px; }
+
+        /* ── 워크시트 ── */
+        .worksheet { background: #fff; border-radius: var(--card-radius); padding: 24px 20px; margin: 16px 0; border: 2px solid var(--primary-200); }
+        .worksheet-title { font-size: 16px; font-weight: 800; color: var(--primary-500); margin-bottom: 4px; }
+        .worksheet-desc { font-size: 13px; color: var(--text-light); margin-bottom: 20px; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { font-size: 14px; font-weight: 700; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        .form-label .num { width: 22px; height: 22px; background: var(--primary-500); color: #fff; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; }
+        textarea, input[type="text"].basic-input { width: 100%; border: 2px solid var(--primary-100); border-radius: 12px; padding: 14px 16px; font-size: 14px; font-family: 'Noto Sans KR', sans-serif; color: var(--text-dark); background: var(--primary-50); transition: border-color 0.2s; resize: vertical; }
+        textarea:focus, input[type="text"].basic-input:focus { outline: none; border-color: var(--primary-400); background: #fff; }
+        textarea { min-height: 80px; }
+
+        /* ── 루틴 디자이너 ── */
+        .routine-row { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+        .routine-time { width: 70px; flex-shrink: 0; font-size: 13px; font-weight: 700; color: var(--primary-600); text-align: right; }
+        .routine-bar { flex: 1; height: 44px; border-radius: 12px; border: 2px solid var(--primary-100); background: #fff; display: flex; align-items: center; padding: 0 12px; }
+        .routine-bar input { width: 100%; border: none; background: transparent; font-size: 13px; font-family: 'Noto Sans KR', sans-serif; color: var(--text-dark); }
+        .routine-bar input:focus { outline: none; }
+        .routine-bar input::placeholder { color: var(--text-light); }
+
+        /* ── Common ── */
+        .info-row { display: flex; gap: 12px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--primary-50); }
+        .info-row:last-child { border-bottom: none; }
+        .info-icon { width: 40px; height: 40px; flex-shrink: 0; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .info-content { flex: 1; }
+        .info-content .title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+        .info-content .desc { font-size: 13px; color: var(--text-mid); line-height: 1.55; }
+
+        .highlight-box { background: linear-gradient(135deg, var(--primary-50), var(--yellow-50)); border-radius: 16px; padding: 20px; margin: 16px 0; border-left: 4px solid var(--primary-400); }
+        .highlight-box .title { font-size: 14px; font-weight: 700; color: var(--primary-600); margin-bottom: 6px; }
+        .highlight-box .desc { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
+
+        .tip-box { background: var(--primary-50); border-radius: 16px; padding: 16px 20px; margin: 12px 0; display: flex; gap: 12px; align-items: flex-start; }
+        .tip-box .tip-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+        .tip-box .tip-text { font-size: 13px; color: var(--text-mid); line-height: 1.6; }
+
+        .summary-list { margin: 16px 0; }
+        .summary-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--primary-50); }
+        .summary-item:last-child { border-bottom: none; }
+        .summary-num { width: 32px; height: 32px; background: var(--primary-500); color: #fff; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; flex-shrink: 0; }
+        .summary-text { font-size: 14px; font-weight: 500; line-height: 1.5; }
+
+        .completion-badge { text-align: center; padding: 32px 20px; background: linear-gradient(160deg, var(--primary-50), var(--yellow-50), var(--lavender-50)); border-radius: var(--card-radius); margin: 16px 0; border: 2px solid var(--primary-200); }
+        .completion-badge .big-emoji { font-size: 64px; margin-bottom: 12px; }
+        .completion-badge .badge-title { font-size: 22px; font-weight: 900; color: var(--primary-600); margin-bottom: 8px; }
+        .completion-badge .badge-desc { font-size: 14px; color: var(--text-mid); line-height: 1.6; }
+
+        .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(249,250,251,0.95); backdrop-filter: blur(12px); border-top: 1px solid var(--primary-100); padding: 12px 20px; padding-bottom: max(12px, env(safe-area-inset-bottom)); z-index: 100; }
+        .nav-inner { max-width: 520px; margin: 0 auto; display: flex; gap: 12px; }
+        .btn { flex: 1; padding: 14px 20px; border-radius: 14px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; transition: all 0.2s; font-family: 'Noto Sans KR', sans-serif; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary-400), var(--primary-500)); color: #fff; box-shadow: 0 4px 16px rgba(34,164,127,0.25); }
+        .btn-primary:active { transform: scale(0.97); }
+        .btn-secondary { background: var(--warm-gray); color: var(--text-mid); }
+        .btn-secondary:active { background: var(--primary-100); }
+
+        @media (min-width: 768px) { .container { padding: 0 32px 100px; } .card { padding: 36px 32px; } .page-title { font-size: 28px; } }
+        @media (max-width: 360px) { .page-title { font-size: 21px; } .card { padding: 22px 18px; } }
+    
+
+/* ══════════════════════════════════════════
+   통합 메인 메뉴 스타일
+   ══════════════════════════════════════════ */
+.main-menu {
+    min-height: 100vh;
+    padding: 0 20px 40px;
+    max-width: 520px;
+    margin: 0 auto;
+}
+
+.menu-header {
+    text-align: center;
+    padding: 48px 0 32px;
+}
+
+.menu-logo {
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+.menu-title {
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--text-dark);
+    line-height: 1.35;
+    margin-bottom: 8px;
+}
+
+.menu-subtitle {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+.lesson-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.lesson-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.lesson-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+.lesson-card:active {
+    transform: scale(0.98);
+}
+
+.lesson-card .card-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.lesson-card .card-body {
+    flex: 1;
+}
+
+.lesson-card .card-num {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.lesson-card .card-title {
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.lesson-card .card-desc {
+    font-size: 12px;
+    color: var(--text-light);
+    line-height: 1.5;
+}
+
+.lesson-card .card-arrow {
+    font-size: 14px;
+    color: var(--text-light);
+    transition: transform 0.2s;
+}
+
+.lesson-card:hover .card-arrow {
+    transform: translateX(4px);
+}
+
+/* 진행률 표시 */
+.card-progress {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-progress-bar {
+    flex: 1;
+    height: 4px;
+    background: #f0f0f0;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.card-progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.3s;
+}
+
+.card-progress-text {
+    font-size: 11px;
+    color: var(--text-light);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* 학생 정보 입력 */
+.student-info {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px 24px;
+    margin-top: 24px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+}
+
+.student-info-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--primary-500);
+    margin-bottom: 12px;
+}
+
+.student-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.student-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.student-field label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-light);
+}
+
+.student-field input {
+    border: 2px solid var(--primary-100);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: border-color 0.2s;
+    background: var(--primary-50);
+}
+
+.student-field input:focus {
+    outline: none;
+    border-color: var(--primary-400);
+    background: #fff;
+}
+
+/* 섹션 숨기기 */
+.lesson-section {
+    display: none;
+}
+
+.lesson-section.active {
+    display: block;
+}
+
+.lesson-header {
+    display: none;
+}
+
+.lesson-header.active {
+    display: block;
+}
+
+/* 메인메뉴 헤더 */
+.menu-main-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 251, 245, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--primary-100);
+    padding: 12px 20px;
+}
+
+.menu-main-header .header-inner {
+    max-width: 520px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-main-header .header-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--primary-500);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 데이터 초기화 버튼 */
+.reset-btn {
+    margin-top: 24px;
+    text-align: center;
+}
+
+.reset-btn button {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 12px;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    padding: 8px 16px;
+}
+
+.reset-btn button:hover {
+    color: var(--coral-500);
+}
+
+/* 이미지 컨테이너 */
+.img-container {
+    width: 100%;
+    margin: 16px 0;
+}
+
+.img-container img {
+    display: block;
+}
+.lesson-section.active {
+    display: block;
+    max-width: 520px;
+    margin: 0 auto;
+}
+    </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     메인 메뉴 헤더
+     ══════════════════════════════════════════ -->
+<div class="menu-main-header" id="menuHeader">
+    <div class="header-inner">
+        <div class="header-title">
+            <i class="fas fa-book-open"></i>
+            <span>나만의 자기주도학습 비밀노트</span>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     메인 메뉴
+     ══════════════════════════════════════════ -->
+<div class="main-menu" id="mainMenu">
+    <div class="menu-header">
+        <div class="menu-logo">📒</div>
+        <div class="menu-title">나만의<br>자기주도학습 비밀노트</div>
+        <div class="menu-subtitle">4차시 프로그램으로 나만의 공부법을 찾아봐요!</div>
+    </div>
+
+    <!-- 학생 정보 -->
+    <div class="student-info">
+        <div class="student-info-title"><i class="fas fa-user-pen"></i> 내 정보</div>
+        <div class="student-fields">
+            <div class="student-field">
+                <label>학교</label>
+                <input type="text" id="studentSchool" placeholder="OO중학교" oninput="saveStudentInfo()">
+            </div>
+            <div class="student-field">
+                <label>학년 반</label>
+                <input type="text" id="studentClass" placeholder="O학년 O반" oninput="saveStudentInfo()">
+            </div>
+            <div class="student-field">
+                <label>번호</label>
+                <input type="text" id="studentNumber" placeholder="O번" oninput="saveStudentInfo()">
+            </div>
+            <div class="student-field">
+                <label>이름</label>
+                <input type="text" id="studentName" placeholder="홍길동" oninput="saveStudentInfo()">
+            </div>
+        </div>
+    </div>
+
+    <!-- 차시 카드 -->
+    <div class="lesson-cards">
+
+        <div class="lesson-card" onclick="openLesson(1)" style="border-color: #22a47f20;">
+            <div class="card-icon" style="background: #22a47f12; color: #22a47f;">
+                <i class="fas fa-fire"></i>
+            </div>
+            <div class="card-body">
+                <div class="card-num" style="color: #22a47f;">1차시</div>
+                <div class="card-title">학습 동기 UP 🔥</div>
+                <div class="card-desc">나의 학습 동기를 알아보고 SMART 목표를 세워요</div>
+                <div class="card-progress">
+                    <div class="card-progress-bar">
+                        <div class="card-progress-fill" id="menuProgress_L1" style="width:0%; background:#22a47f;"></div>
+                    </div>
+                    <div class="card-progress-text" id="menuProgressText_L1">0%</div>
+                </div>
+            </div>
+            <div class="card-arrow"><i class="fas fa-chevron-right"></i></div>
+        </div>
+
+        <div class="lesson-card" onclick="openLesson(2)" style="border-color: #2d8ec420;">
+            <div class="card-icon" style="background: #2d8ec412; color: #2d8ec4;">
+                <i class="fas fa-pen-fancy"></i>
+            </div>
+            <div class="card-body">
+                <div class="card-num" style="color: #2d8ec4;">2차시</div>
+                <div class="card-title">수업 집중과 필기 전략 ✏️</div>
+                <div class="card-desc">뇌과학으로 집중의 원리를 이해하고 코넬노트를 배워요</div>
+                <div class="card-progress">
+                    <div class="card-progress-bar">
+                        <div class="card-progress-fill" id="menuProgress_L2" style="width:0%; background:#2d8ec4;"></div>
+                    </div>
+                    <div class="card-progress-text" id="menuProgressText_L2">0%</div>
+                </div>
+            </div>
+            <div class="card-arrow"><i class="fas fa-chevron-right"></i></div>
+        </div>
+
+        <div class="lesson-card" onclick="openLesson(3)" style="border-color: #9b6eef20;">
+            <div class="card-icon" style="background: #9b6eef12; color: #9b6eef;">
+                <i class="fas fa-brain"></i>
+            </div>
+            <div class="card-body">
+                <div class="card-num" style="color: #9b6eef;">3차시</div>
+                <div class="card-title">복습 시스템과 암기법 🧠</div>
+                <div class="card-desc">망각곡선을 이해하고 과학적 복습 시스템을 만들어요</div>
+                <div class="card-progress">
+                    <div class="card-progress-bar">
+                        <div class="card-progress-fill" id="menuProgress_L3" style="width:0%; background:#9b6eef;"></div>
+                    </div>
+                    <div class="card-progress-text" id="menuProgressText_L3">0%</div>
+                </div>
+            </div>
+            <div class="card-arrow"><i class="fas fa-chevron-right"></i></div>
+        </div>
+
+        <div class="lesson-card" onclick="openLesson(4)" style="border-color: #e4793a20;">
+            <div class="card-icon" style="background: #e4793a12; color: #e4793a;">
+                <i class="fas fa-shield-heart"></i>
+            </div>
+            <div class="card-body">
+                <div class="card-num" style="color: #e4793a;">4차시</div>
+                <div class="card-title">시험 불안 관리하기 🛡️</div>
+                <div class="card-desc">시험 불안을 다스리고 거꾸로 공부법을 배워요</div>
+                <div class="card-progress">
+                    <div class="card-progress-bar">
+                        <div class="card-progress-fill" id="menuProgress_L4" style="width:0%; background:#e4793a;"></div>
+                    </div>
+                    <div class="card-progress-text" id="menuProgressText_L4">0%</div>
+                </div>
+            </div>
+            <div class="card-arrow"><i class="fas fa-chevron-right"></i></div>
+        </div>
+
+    </div>
+
+    <!-- 데이터 초기화 -->
+    <div class="reset-btn">
+        <button onclick="resetAllData()"><i class="fas fa-trash-can"></i> 입력 데이터 초기화</button>
+    </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     1차시: 학습 동기 UP
+     ══════════════════════════════════════════ -->
+
+    <div class="header lesson-header" style="display:none;" id="header_L1">
+        <div class="header-inner">
+            <div class="header-title" style="cursor:pointer;" onclick="backToMenu()">
+                <i class="fas fa-chevron-left" style="font-size:14px; margin-right:2px;"></i>
+                <i class="fas fa-fire"></i>
+                <span>1차시 · 학습 동기 UP</span>
+            </div>
+            <div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill_L1" style="width: 11%"></div>
+                </div>
+                <div class="page-count"><span id="currentPage_L1">1</span> / <span id="totalPages_L1">9</span></div>
+            </div>
+        </div>
+    </div>
+
+<div class="lesson-section" id="lessonSection1">
+<div class="container lesson-container" id="lessonContent1">
+
+    <!-- PAGE 1: 인트로 -->
+    <div class="page active" data-page="L1-1">
+        <div style="padding-top: 24px; text-align: center;">
+            <div class="page-label">자기주도학습 비밀노트</div>
+            <h1 class="page-title" style="font-size: 28px; text-align: center;">
+                나만의<br>자기주도학습<br>비밀노트 📒
+            </h1>
+            <p class="page-subtitle" style="text-align: center; margin-bottom: 20px;">
+                공부의 비밀, 오늘부터 하나씩 풀어볼까?
+            </p>
+            <div class="img-container" id="img_L1_1">
+                <img src="https://ooo9luzdoplzs8wq.public.blob.vercel-storage.com/%EC%A4%91%ED%95%99%EA%B5%90%20%EC%8A%B5%EA%B4%80%EC%B6%94%EB%A1%A0/%EC%82%AC%EC%A7%841.png" alt="1차시 메인" style="width:100%;border-radius:16px;object-fit:cover;">
+            </div>
+            </div>
+            <div class="highlight-box" style="text-align: left;">
+                <div class="title">💡 오늘의 미션</div>
+                <div class="desc">
+                    1차시에서는 <strong>나의 학습 동기</strong>를 알아보고,<br>
+                    진짜 나에게 맞는 공부 스타일을 발견해요!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2: 너는 왜 공부해? -->
+    <div class="page" data-page="L1-2">
+        <div style="padding-top: 24px;">
+            <div class="page-label">정보</div>
+            <h2 class="page-title">너는 왜 공부해? 🤔</h2>
+            <p class="page-subtitle">
+                잠깐! 공부를 시작하기 전에, 한 가지 질문에 솔직하게 답해봐.
+            </p>
+
+            <div class="card">
+                <div class="section-title">
+                    <div class="icon"><i class="fas fa-comments"></i></div>
+                    솔직하게 골라봐!
+                </div>
+                <div class="chip-group" id="whyStudyChips">
+                    <div class="chip" onclick="L1_toggleChip(this)">성적 올리려고</div>
+                    <div class="chip" onclick="L1_toggleChip(this)">부모님이 시켜서</div>
+                    <div class="chip" onclick="L1_toggleChip(this)">좋은 대학 가려고</div>
+                    <div class="chip" onclick="L1_toggleChip(this)">알아가는 게 재밌어서</div>
+                    <div class="chip" onclick="L1_toggleChip(this)">꿈을 이루려고</div>
+                    <div class="chip" onclick="L1_toggleChip(this)">친구들이 다 하니까</div>
+                    <div class="chip" onclick="L1_toggleChip(this)">안 하면 불안해서</div>
+                    <div class="chip" onclick="L1_toggleChip(this)">잘하고 싶은 게 있어서</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-icon">💬</div>
+                <div class="tip-text">
+                    정답은 없어! 어떤 이유든 괜찮아.<br>
+                    중요한 건 <strong>내가 왜 공부하는지</strong> 스스로 알고 있는 거야.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 3: 내적 동기 vs 외적 동기 -->
+    <div class="page" data-page="L1-3">
+        <div style="padding-top: 24px;">
+            <div class="page-label">정보</div>
+            <h2 class="page-title">동기에도 종류가 있어! ⚡</h2>
+            <p class="page-subtitle">
+                공부하는 이유는 크게 두 가지로 나눌 수 있어.
+            </p>
+
+            <div class="compare-box">
+                <div class="compare-item positive">
+                    <div class="emoji">🔥</div>
+                    <div class="label" style="color: var(--coral-500);">내적 동기</div>
+                    <div class="desc">
+                        배우는 것 자체가 재미있어서,<br>
+                        알아가는 기쁨으로 공부하는 것
+                    </div>
+                </div>
+                <div class="compare-item negative">
+                    <div class="emoji">🎯</div>
+                    <div class="label">외적 동기</div>
+                    <div class="desc">
+                        성적, 보상, 칭찬 등<br>
+                        외부 결과를 위해 공부하는 것
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="section-title">
+                    <div class="icon"><i class="fas fa-lightbulb"></i></div>
+                    핵심 포인트
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--coral-50); color: var(--coral-500);">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="title">둘 다 중요해!</div>
+                        <div class="desc">외적 동기가 나쁜 건 아니야. 하지만 내적 동기가 강할수록 공부가 오래 지속돼.</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--lavender-50); color: var(--lavender-400);">
+                        <i class="fas fa-arrows-rotate"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="title">전환이 가능해!</div>
+                        <div class="desc">처음엔 부모님 때문에 시작해도, 재미를 발견하면 내적 동기로 바뀔 수 있어.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 4: 동기가 학습에 미치는 영향 -->
+    <div class="page" data-page="L1-4">
+        <div style="padding-top: 24px;">
+            <div class="page-label">정보</div>
+            <h2 class="page-title">동기가 공부에 미치는 영향 📊</h2>
+            <p class="page-subtitle">
+                같은 시간을 공부해도 동기 수준에 따라 결과가 완전히 달라져!
+            </p>
+
+            <div class="card">
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--coral-50); color: var(--coral-500);">
+                        <i class="fas fa-face-smile-beam"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="title" style="color: var(--coral-500);">동기가 높을 때</div>
+                        <div class="desc">집중 시간 ↑ / 기억력 ↑ / 스트레스 ↓<br>어려운 문제도 포기하지 않고 도전!</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--warm-gray); color: var(--text-light);">
+                        <i class="fas fa-face-meh"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="title">동기가 낮을 때</div>
+                        <div class="desc">집중 시간 ↓ / 쉽게 포기 / 공부가 고통<br>억지로 앉아있어도 머리에 안 들어와</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="motivation-spectrum">
+                <div style="font-size: 13px; font-weight: 700; margin-bottom: 8px;">나의 동기 온도는?</div>
+                <div class="spectrum-bar"></div>
+                <div class="spectrum-labels">
+                    <span>🥶 바닥</span>
+                    <span>😐 보통</span>
+                    <span>🔥 최고</span>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <div class="title">🧠 연구 결과</div>
+                <div class="desc">
+                    자기결정이론(Deci & Ryan)에 따르면,<br>
+                    <strong>자율성 · 유능감 · 관계성</strong> 세 가지가 충족될 때<br>
+                    내적 동기가 가장 강해져요!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 5: K-SRL 진단검사 안내 -->
+    <div class="page" data-page="L1-5">
+        <div style="padding-top: 24px;">
+            <div class="page-label">참고</div>
+            <h2 class="page-title">나의 진짜 공부 유형은? 🔍</h2>
+            <p class="page-subtitle">
+                K-SRL 자기주도학습 진단검사로<br>나의 학습 스타일을 과학적으로 분석해보자!
+            </p>
+
+            <div class="card">
+                <div class="section-title">
+                    <div class="icon"><i class="fas fa-clipboard-check"></i></div>
+                    검사 미리보기
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--primary-50); color: var(--primary-500);">C</div>
+                    <div class="info-content">
+                        <div class="title">인지 전략</div>
+                        <div class="desc">정보를 이해하고 정리하는 능력</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--lavender-50); color: var(--lavender-400);">M</div>
+                    <div class="info-content">
+                        <div class="title">초인지(메타인지)</div>
+                        <div class="desc">계획, 점검, 조절하는 능력</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--coral-50); color: var(--coral-500);">V</div>
+                    <div class="info-content">
+                        <div class="title">동기</div>
+                        <div class="desc">공부에 대한 의지와 자신감</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: #e8f5e9; color: #4caf50;">B</div>
+                    <div class="info-content">
+                        <div class="title">행동 조절</div>
+                        <div class="desc">환경을 관리하고 실천하는 능력</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-icon">⏱️</div>
+                <div class="tip-text">
+                    약 3분 정도 걸려요!<br>
+                    정답은 없으니 <strong>솔직하게</strong> 답해야 정확한 결과가 나와요.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 6: K-SRL 진단검사 (간이 6문항 버전) -->
+    <div class="page" data-page="L1-6">
+        <div style="padding-top: 24px;">
+            <div class="page-label">활동</div>
+            <h2 class="page-title">K-SRL 간이 진단 ✍️</h2>
+            <p class="page-subtitle" style="margin-bottom: 8px;">
+                솔직하게 답해봐! 1점(전혀 아니다) ~ 5점(매우 그렇다)
+            </p>
+
+            <div class="card" style="padding: 20px 16px;">
+                <div id="srlQuestions">
+                    <!-- JS로 생성 -->
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 16px;">
+                <button class="btn btn-primary" style="max-width: 280px;" onclick="L1_calculateSRL()">
+                    <i class="fas fa-wand-magic-sparkles"></i>&nbsp; 결과 확인하기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 7: 진단 결과 -->
+    <div class="page" data-page="L1-7">
+        <div style="padding-top: 24px;">
+            <div class="page-label">활동</div>
+            <h2 class="page-title">나의 학습 유형 결과 🎉</h2>
+
+            <div class="result-card" id="resultCard">
+                <div style="font-size: 48px;" id="resultEmoji">🔍</div>
+                <div class="result-persona" id="resultTitle">결과를 확인해주세요</div>
+                <div class="result-desc" id="resultDesc">6페이지에서 진단검사를 먼저 완료해주세요!</div>
+                <div class="badge-row" id="badgeRow"></div>
+            </div>
+
+            <div class="card" id="resultAdvice" style="display: none;">
+                <div class="section-title">
+                    <div class="icon"><i class="fas fa-comment-dots"></i></div>
+                    맞춤 조언
+                </div>
+                <p id="resultSol" style="font-size: 14px; line-height: 1.7; color: var(--text-mid);"></p>
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-icon">💡</div>
+                <div class="tip-text">
+                    이 결과는 지금 이 순간의 나일 뿐이야!<br>
+                    앞으로 배울 전략들로 <strong>얼마든지 바뀔 수 있어</strong>.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 8: 학습 목표 설정 워크시트 -->
+    <div class="page" data-page="L1-8">
+        <div style="padding-top: 24px;">
+            <div class="page-label">활동</div>
+            <h2 class="page-title">나의 학습 목표 세우기 🎯</h2>
+            <p class="page-subtitle">
+                진단 결과를 참고해서, 이번 학기 나만의 학습 목표를 세워보자!
+            </p>
+
+            <div class="worksheet">
+                <div class="worksheet-title">📝 나의 학습 목표 워크시트</div>
+                <div class="worksheet-desc">천천히 생각하면서 적어봐!</div>
+
+                <div class="form-group">
+                    <div class="form-label">
+                        <span class="num">1</span> 지금 나의 공부 상태를 한 줄로 표현하면?
+                    </div>
+                    <input type="text" placeholder="예) 하고 싶은 마음은 있는데 방법을 모르겠어">
+                </div>
+
+                <div class="form-group">
+                    <div class="form-label">
+                        <span class="num">2</span> 이번 학기에 가장 올리고 싶은 과목은?
+                    </div>
+                    <input type="text" placeholder="예) 영어, 수학">
+                </div>
+
+                <div class="form-group">
+                    <div class="form-label">
+                        <span class="num">3</span> 나의 공부 습관 중 바꾸고 싶은 것 하나는?
+                    </div>
+                    <textarea placeholder="예) 스마트폰 보면서 공부하는 습관을 고치고 싶어"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-label">
+                        <span class="num">4</span> 이번 학기 학습 목표를 SMART하게 써보자!
+                    </div>
+                    <div class="tip-box" style="margin-bottom: 12px;">
+                        <div class="tip-icon">💡</div>
+                        <div class="tip-text">
+                            <strong>SMART 목표</strong>: 구체적(S) · 측정 가능(M) · 달성 가능(A) · 관련성(R) · 기한(T)
+                        </div>
+                    </div>
+                    <textarea placeholder="예) 이번 학기 중간고사 전까지(T) 매일 영단어 20개씩(S,M) 외워서 영어 성적 80점 이상(A) 받기"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 9: 마무리 -->
+    <div class="page" data-page="L1-9">
+        <div style="padding-top: 24px; text-align: center;">
+            <div class="page-label">1차시 완료!</div>
+            <h2 class="page-title" style="text-align: center;">
+                오늘 배운 것 정리 ✨
+            </h2>
+
+            <div class="card" style="text-align: left;">
+                <div class="section-title">
+                    <div class="icon"><i class="fas fa-check-double"></i></div>
+                    1차시 핵심 요약
+                </div>
+                <div class="summary-list">
+                    <div class="summary-item">
+                        <div class="summary-num">1</div>
+                        <div class="summary-text">동기에는 <strong>내적 동기</strong>와 <strong>외적 동기</strong>가 있어</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-num">2</div>
+                        <div class="summary-text">내적 동기가 강할수록 공부가 <strong>오래 지속</strong>돼</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-num">3</div>
+                        <div class="summary-text">K-SRL 진단으로 <strong>나의 학습 유형</strong>을 확인했어</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-num">4</div>
+                        <div class="summary-text"><strong>SMART 학습 목표</strong>를 세워봤어</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="text-align: left;">
+                <div class="title">📢 다음 시간 예고</div>
+                <div class="desc">
+                    <strong>2차시: 수업 집중과 필기 전략</strong><br>
+                    뇌과학으로 보는 집중의 비밀과<br>
+                    코넬노트 작성법을 배워볼 거야!
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Navigation Bar -->
+
+
+    <div class="nav-bar" style="display:none;" id="navBar_L1">
+        <div class="nav-inner">
+            <button class="btn btn-secondary" id="prevBtn_L1" onclick="L1_prevPage()" style="display: none;">
+                <i class="fas fa-chevron-left"></i> 이전
+            </button>
+            <button class="btn btn-primary" id="nextBtn_L1" onclick="L1_nextPage()">
+                다음 <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+
+<!-- ══════════════════════════════════════════
+     2차시: 수업 집중과 필기 전략
+     ══════════════════════════════════════════ -->
+
+    <div class="header lesson-header" style="display:none;" id="header_L2">
+        <div class="header-inner">
+            <div class="header-title" style="cursor:pointer;" onclick="backToMenu()">
+                <i class="fas fa-chevron-left" style="font-size:14px; margin-right:2px;"></i>
+                <i class="fas fa-pen-fancy"></i>
+                <span>2차시 · 수업 집중과 필기 전략</span>
+            </div>
+            <div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill_L2" style="width: 11%"></div>
+                </div>
+                <div class="page-count"><span id="currentPage_L2">1</span> / <span id="totalPages_L2">9</span></div>
+            </div>
+        </div>
+    </div>
+
+<div class="lesson-section" id="lessonSection2">
+<div class="container lesson-container" id="lessonContent2">
+
+    <!-- PAGE 1: 인트로 -->
+    <div class="page active" data-page="L2-1">
+        <div style="padding-top: 24px; text-align: center;">
+            <div class="page-label">자기주도학습 비밀노트</div>
+            <h1 class="page-title" style="font-size: 28px; text-align: center;">
+                수업 집중과<br>필기 전략 ✏️
+            </h1>
+            <p class="page-subtitle" style="text-align: center; margin-bottom: 20px;">
+                같은 수업, 다른 결과!<br>비밀은 집중과 필기에 있어.
+            </p>
+            <div class="img-container" id="img_L2_1">
+                <img src="https://ooo9luzdoplzs8wq.public.blob.vercel-storage.com/%EC%A4%91%ED%95%99%EA%B5%90%20%EC%8A%B5%EA%B4%80%EC%B6%94%EB%A1%A0/%EC%82%AC%EC%A7%842.png" alt="2차시 메인" style="width:100%;border-radius:16px;object-fit:cover;">
+            </div>
+            </div>
+            <div class="highlight-box" style="text-align: left;">
+                <div class="title">💡 오늘의 미션</div>
+                <div class="desc">
+                    뇌과학으로 <strong>집중의 원리</strong>를 이해하고,<br>
+                    <strong>코넬노트</strong>로 수업을 200% 활용하는 법을 배워요!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2: 뇌과학으로 보는 집중 -->
+    <div class="page" data-page="L2-2">
+        <div style="padding-top: 24px;">
+            <div class="page-label">정보</div>
+            <h2 class="page-title">집중, 뇌는 어떻게 작동할까? 🧠</h2>
+            <p class="page-subtitle">
+                집중력이 없는 게 아니라, 뇌의 작동 방식을 모르는 것일 수도 있어!
+            </p>
+
+            <div class="card">
+                <div class="section-title">
+                    <div class="icon"><i class="fas fa-brain"></i></div>
+                    주의력 vs 집중력
+                </div>
+                <div class="compare-box">
+                    <div class="compare-item positive">
+                        <div class="emoji">👀</div>
+                        <div class="label" style="color: var(--primary-600);">주의력</div>
+                        <div class="desc">
+                            여러 정보 중에서<br>
+                            필요한 것을 <strong>선택</strong>하는 능력
+                        </div>
+                    </div>
+                    <div class="compare-item negative">
+                        <div class="emoji">🎯</div>
+                        <div class="label">집중력</div>
+                        <div class="desc">
+                            선택한 정보에<br>
+                            오래 <strong>머무르는</strong> 능력
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <div class="tip-icon">💡</div>
+                    <div class="tip-text">
+                        사람의 집중력은 평균 <strong>15~20분</strong>이 한계!<br>
+                        그래서 전략적으로 집중과 휴식을 반복하는 게 중요해.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 3: 멀티태스킹의 함정 -->
+    <div class="page" data-page="L2-3">
+        <div style="padding-top: 24px;">
+            <div class="page-label">정보</div>
+            <h2 class="page-title">멀티태스킹의 함정 📱</h2>
+            <p class="page-subtitle">
+                공부하면서 음악 듣고, 카톡 확인하고... 혹시 너도?
+            </p>
+
+            <div class="card">
+                <div class="section-title">
+                    <div class="icon" style="background: var(--coral-50); color: var(--coral-500);">
+                        <i class="fas fa-triangle-exclamation"></i>
+                    </div>
+                    멀티태스킹의 진실
+                </div>
+
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--coral-50); color: var(--coral-500);">
+                        <i class="fas fa-xmark"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="title" style="color: var(--coral-500);">뇌는 동시 처리가 안 돼!</div>
+                        <div class="desc">멀티태스킹처럼 보이는 건 사실 뇌가 빠르게 '전환'하는 것. 전환할 때마다 에너지가 소모돼.</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--coral-50); color: var(--coral-500);">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="title" style="color: var(--coral-500);">집중 복귀에 23분!</div>
+                        <div class="desc">한번 흐트러진 집중을 되돌리는 데 평균 23분이 걸린다는 연구 결과가 있어.</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--coral-50); color: var(--coral-500);">
+                        <i class="fas fa-arrow-trend-down"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="title" style="color: var(--coral-500);">학습 효율 40% 감소</div>
+                        <div class="desc">스마트폰을 옆에 두기만 해도 인지 능력이 떨어진다는 연구 결과도!</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <div class="title">✅ 집중을 위한 환경 세팅</div>
+                <div class="desc">
+                    📵 스마트폰은 가방 안에<br>
+                    🎧 가사 없는 백색소음 활용<br>
+                    📐 책상 위에는 지금 공부할 것만<br>
+                    ⏰ 25분 집중 + 5분 휴식 (뽀모도로)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 4: 예습→수업→복습 3단계 학습 사이클 -->
+    <div class="page" data-page="L2-4">
+        <div style="padding-top: 24px;">
+            <div class="page-label">정보</div>
+            <h2 class="page-title">공부의 골든 사이클 🔄</h2>
+            <p class="page-subtitle">
+                공부 잘하는 학생들의 비밀은 간단해.<br>
+                <strong>예습 → 수업 → 복습</strong>을 반복하는 것!
+            </p>
+
+            <div class="cycle-container">
+                <div class="cycle-step step-pre">
+                    <div class="emoji">📖</div>
+                    <div class="label">예습</div>
+                    <div class="desc">내일 배울 내용<br>미리 훑어보기</div>
+                </div>
+                <div class="cycle-arrow"><i class="fas fa-chevron-right"></i></div>
+                <div class="cycle-step step-class">
+                    <div class="emoji">🏫</div>
+                    <div class="label">수업</div>
+                    <div class="desc">집중 듣기 +<br>핵심 필기</div>
+                </div>
+                <div class="cycle-arrow"><i class="fas fa-chevron-right"></i></div>
+                <div class="cycle-step step-review">
+                    <div class="emoji">🔁</div>
+                    <div class="label">복습</div>
+                    <div class="desc">그날 배운 것<br>다시 정리하기</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="section-title">
+                    <div class="icon"><i class="fas fa-star"></i></div>
+                    왜 이 사이클이 중요해?
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--yellow-50); color: #b45309;">📖</div>
+                    <div class="info-content">
+                        <div class="title">예습 = 지도 펼치기</div>
+                        <div class="desc">어디로 갈지 모르고 여행하면 길을 잃듯, 예습 없이 수업 들으면 핵심을 놓쳐.</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--coral-50); color: var(--coral-500);">🏫</div>
+                    <div class="info-content">
+                        <div class="title">수업 = 가이드 투어</div>
+                        <div class="desc">선생님이 중요한 곳을 짚어주는 시간! 예습이 되어 있으면 "아, 이거!" 하면서 집중돼.</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--primary-50); color: var(--primary-500);">🔁</div>
+                    <div class="info-content">
+                        <div class="title">복습 = 기억 저장</div>
+                        <div class="desc">뇌에 "이건 중요해!"라고 신호를 보내는 작업. 복습 없이는 24시간 안에 70% 잊어버려.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 5: 예습 체크리스트 -->
+    <div class="page" data-page="L2-5">
+        <div style="padding-top: 24px;">
+            <div class="page-label">참고</div>
+            <h2 class="page-title">예습, 이렇게만 하면 돼! 📋</h2>
+            <p class="page-subtitle">
+                예습은 오래 걸리지 않아!<br>
+                <strong>10~15분</strong>이면 충분해. 핵심만 챙기자.
+            </p>
+
+            <div class="card">
+                <div class="section-title">
+                    <div class="icon" style="background: var(--yellow-50); color: #b45309;">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    예습 체크리스트
+                </div>
+                <div class="checklist" id="previewChecklist">
+                    <div class="check-item" onclick="L2_toggleCheck(this)">
+                        <div class="check-box"><i class="fas fa-check"></i></div>
+                        <div class="check-text">교과서 목차와 소제목 훑어보기</div>
+                    </div>
+                    <div class="check-item" onclick="L2_toggleCheck(this)">
+                        <div class="check-box"><i class="fas fa-check"></i></div>
+                        <div class="check-text">굵은 글씨, 핵심 용어 체크하기</div>
+                    </div>
+                    <div class="check-item" onclick="L2_toggleCheck(this)">
+                        <div class="check-box"><i class="fas fa-check"></i></div>
+                        <div class="check-text">그림, 도표, 그래프 먼저 살펴보기</div>
+                    </div>
+                    <div class="check-item" onclick="L2_toggleCheck(this)">
+                        <div class="check-box"><i class="fas fa-check"></i></div>
+                        <div class="check-text">모르는 단어나 개념에 표시해두기</div>
+                    </div>
+                    <div class="check-item" onclick="L2_toggleCheck(this)">
+                        <div class="check-box"><i class="fas fa-check"></i></div>
+                        <div class="check-text">"이건 수업에서 잘 들어야지!" 질문 만들기</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-icon">⏰</div>
+                <div class="tip-text">
+                    <strong>꿀팁!</strong> 자기 전에 내일 수업 과목 예습을 10분만 하면,<br>
+                    수업 중 이해도가 확 올라가!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 6: 코넬노트란? -->
+    <div class="page" data-page="L2-6">
+        <div style="padding-top: 24px;">
+            <div class="page-label">참고</div>
+            <h2 class="page-title">코넬노트, 들어봤어? 📓</h2>
+            <p class="page-subtitle">
+                코넬 대학교에서 만든 필기법으로,<br>
+                전 세계 학생들이 가장 많이 쓰는 노트 전략이야!
+            </p>
+
+            <div class="cornell-diagram">
+                <div class="cornell-header">
+                    📅 날짜 / 📚 과목 / 📝 주제
+                </div>
+                <div class="cornell-body">
+                    <div class="cornell-cue">
+                        <div class="zone-title">💬 단서 영역</div>
+                        <div class="zone-desc">
+                            키워드, 질문,<br>
+                            핵심 용어 정리
+                        </div>
+                    </div>
+                    <div class="cornell-note">
+                        <div class="zone-title">✏️ 필기 영역</div>
+                        <div class="zone-desc">
+                            수업 내용을<br>
+                            빠르게 기록!<br>
+                            완벽하지 않아도 OK
+                        </div>
+                    </div>
+                </div>
+                <div class="cornell-summary">
+                    <div class="zone-title">📋 요약 영역</div>
+                    <div class="zone-desc">
+                        수업 후 핵심을 1~2문장으로 요약 (이게 복습의 시작!)
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="section-title">
+                    <div class="icon"><i class="fas fa-wand-magic-sparkles"></i></div>
+                    코넬노트의 마법
+                </div>
+                <div class="step-list">
+                    <div class="step-item">
+                        <div class="step-num" style="background: var(--coral-500);">1</div>
+                        <div class="step-content">
+                            <div class="title">수업 중 — 오른쪽에 필기</div>
+                            <div class="desc">선생님 말씀을 빠르게 기록. 예쁘게 안 써도 돼!</div>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num" style="background: #b45309;">2</div>
+                        <div class="step-content">
+                            <div class="title">수업 후 — 왼쪽에 키워드 정리</div>
+                            <div class="desc">필기를 보면서 핵심 키워드와 질문을 왼쪽에 적어.</div>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-num" style="background: var(--lavender-400);">3</div>
+                        <div class="step-content">
+                            <div class="title">마무리 — 아래에 요약</div>
+                            <div class="desc">전체 내용을 1~2문장으로 요약. 이게 진짜 복습!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 7: 3단 구조화 노트법 -->
+    <div class="page" data-page="L2-7">
+        <div style="padding-top: 24px;">
+            <div class="page-label">참고</div>
+            <h2 class="page-title">3단 구조화 노트법 🗂️</h2>
+            <p class="page-subtitle">
+                코넬노트 말고 더 간단한 방법도 있어!<br>
+                핵심 / 보충 / 요약, 세 단계로 정리해보자.
+            </p>
+
+            <div class="card">
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--coral-50); color: var(--coral-500);">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="title" style="color: var(--coral-500);">1단계: 핵심</div>
+                        <div class="desc">선생님이 강조한 것, 시험에 나올 것, 교과서 굵은 글씨 → <strong>빨간펜</strong>으로 표시!</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--lavender-50); color: var(--lavender-400);">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="title" style="color: var(--lavender-400);">2단계: 보충</div>
+                        <div class="desc">핵심 내용을 이해하기 위한 예시, 부연 설명 → 핵심 아래에 덧붙여 적기</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--primary-50); color: var(--primary-500);">
+                        <i class="fas fa-compress"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="title" style="color: var(--primary-600);">3단계: 요약</div>
+                        <div class="desc">오늘 배운 내용을 나만의 말로 한 줄 정리! "오늘 배운 건 결국 ___이다"</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <div class="title">🤔 코넬노트 vs 3단 구조화, 뭐가 나아?</div>
+                <div class="desc">
+                    정답은 없어! <strong>코넬노트</strong>는 영역이 나뉘어 있어서 체계적이고, <strong>3단 구조화</strong>는 더 자유롭고 빨라.<br>
+                    둘 다 해보고 나한테 맞는 걸 쓰면 돼!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 8: 코넬노트 실습 -->
+    <div class="page" data-page="L2-8">
+        <div style="padding-top: 24px;">
+            <div class="page-label">활동</div>
+            <h2 class="page-title">직접 써보자! ✍️</h2>
+            <p class="page-subtitle">
+                코넬노트 실습 시간이야!<br>
+                직접 손으로 써보면서 익혀보자.
+            </p>
+
+            <div class="card" style="text-align:center;padding:40px 24px;border:2px dashed var(--primary-300);background:var(--primary-50);">
+                <div style="font-size:48px;margin-bottom:16px;">📋✍️</div>
+                <div style="font-size:18px;font-weight:800;color:var(--primary-600);margin-bottom:8px;">코넬노트 실습지</div>
+                <div style="font-size:14px;color:var(--text-mid);line-height:1.7;"><strong>강사님이 배부해준 종이</strong>에<br>직접 작성해봅시다! 📝</div>
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-icon">🌟</div>
+                <div class="tip-text">
+                    <strong>꿀팁!</strong> 왼쪽 단서 영역은 수업 직후에 채우는 게 포인트야.<br>
+                    이 과정 자체가 1차 복습이 돼!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 9: 마무리 -->
+    <div class="page" data-page="L2-9">
+        <div style="padding-top: 24px; text-align: center;">
+            <div class="page-label">2차시 완료!</div>
+            <h2 class="page-title" style="text-align: center;">
+                오늘 배운 것 정리 ✨
+            </h2>
+
+            <div class="card" style="text-align: left;">
+                <div class="section-title">
+                    <div class="icon"><i class="fas fa-check-double"></i></div>
+                    2차시 핵심 요약
+                </div>
+                <div class="summary-list">
+                    <div class="summary-item">
+                        <div class="summary-num">1</div>
+                        <div class="summary-text">집중력은 <strong>15~20분</strong>이 한계, 전략적으로 쓰자</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-num">2</div>
+                        <div class="summary-text"><strong>멀티태스킹은 환상</strong>! 스마트폰을 멀리 치워</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-num">3</div>
+                        <div class="summary-text"><strong>예습→수업→복습</strong> 골든 사이클을 기억해</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-num">4</div>
+                        <div class="summary-text"><strong>코넬노트</strong>로 필기하면 복습까지 자동!</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="text-align: left;">
+                <div class="title">📢 다음 시간 예고</div>
+                <div class="desc">
+                    <strong>3차시: 복습 시스템과 암기법</strong><br>
+                    에빙하우스 망각곡선의 비밀과<br>
+                    과학적 복습 주기를 배워볼 거야!
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Navigation Bar -->
+
+
+    <div class="nav-bar" style="display:none;" id="navBar_L2">
+        <div class="nav-inner">
+            <button class="btn btn-secondary" id="prevBtn_L2" onclick="L2_prevPage()" style="display: none;">
+                <i class="fas fa-chevron-left"></i> 이전
+            </button>
+            <button class="btn btn-primary" id="nextBtn_L2" onclick="L2_nextPage()">
+                다음 <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+
+<!-- ══════════════════════════════════════════
+     3차시: 복습 시스템과 암기법
+     ══════════════════════════════════════════ -->
+
+    <div class="header lesson-header" style="display:none;" id="header_L3">
+        <div class="header-inner">
+            <div class="header-title" style="cursor:pointer;" onclick="backToMenu()">
+                <i class="fas fa-chevron-left" style="font-size:14px; margin-right:2px;"></i>
+                <i class="fas fa-brain"></i>
+                <span>3차시 · 복습 시스템과 암기법</span>
+            </div>
+            <div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill_L3" style="width: 11%"></div>
+                </div>
+                <div class="page-count"><span id="currentPage_L3">1</span> / <span id="totalPages_L3">9</span></div>
+            </div>
+        </div>
+    </div>
+
+<div class="lesson-section" id="lessonSection3">
+<div class="container lesson-container" id="lessonContent3">
+
+    <!-- PAGE 1: 인트로 -->
+    <div class="page active" data-page="L3-1">
+        <div style="padding-top: 24px; text-align: center;">
+            <div class="page-label">자기주도학습 비밀노트</div>
+            <h1 class="page-title" style="font-size: 28px; text-align: center;">
+                복습 시스템과<br>암기법 🧠
+            </h1>
+            <p class="page-subtitle" style="text-align: center; margin-bottom: 20px;">
+                열심히 공부한 게 사라지는 이유?<br>비밀은 '복습 타이밍'에 있어!
+            </p>
+            <div class="img-container" id="img_L3_1">
+                <img src="https://ooo9luzdoplzs8wq.public.blob.vercel-storage.com/%EC%A4%91%ED%95%99%EA%B5%90%20%EC%8A%B5%EA%B4%80%EC%B6%94%EB%A1%A0/%EC%82%AC%EC%A7%843.png" alt="3차시 메인" style="width:100%;border-radius:16px;object-fit:cover;">
+            </div>
+            </div>
+            <div class="highlight-box" style="text-align: left;">
+                <div class="title">💡 오늘의 미션</div>
+                <div class="desc">
+                    <strong>망각곡선</strong>의 비밀을 알고,<br>
+                    과학적 <strong>복습 주기</strong>와 <strong>5가지 암기 전략</strong>을 배워요!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2: 에빙하우스 망각곡선 -->
+    <div class="page" data-page="L3-2">
+        <div style="padding-top: 24px;">
+            <div class="page-label">정보</div>
+            <h2 class="page-title">왜 까먹을까? 망각곡선 📉</h2>
+            <p class="page-subtitle">
+                독일 심리학자 에빙하우스가 발견한 충격적인 사실!<br>
+                복습하지 않으면 배운 것이 이렇게 사라져.
+            </p>
+
+            <div class="forgetting-curve">
+                <div style="font-size: 14px; font-weight: 700; margin-bottom: 4px;">에빙하우스 망각곡선</div>
+                <div style="font-size: 12px; color: var(--text-light); margin-bottom: 12px;">복습 없이 시간이 지나면...</div>
+                <div class="curve-chart">
+                    <!-- Y축 라벨 -->
+                    <div class="curve-y-label" style="top: 0;">100%</div>
+                    <div class="curve-y-label" style="top: 50%;">50%</div>
+                    <div class="curve-y-label" style="top: 80%;">20%</div>
+
+                    <!-- X축 라벨 -->
+                    <div class="curve-x-label" style="left: 0%;">학습직후</div>
+                    <div class="curve-x-label" style="left: 15%;">20분</div>
+                    <div class="curve-x-label" style="left: 30%;">1시간</div>
+                    <div class="curve-x-label" style="left: 50%;">1일</div>
+                    <div class="curve-x-label" style="left: 75%;">7일</div>
+                    <div class="curve-x-label" style="left: 100%;">30일</div>
+
+                    <!-- 곡선 (SVG) -->
+                    <svg class="curve-line" viewBox="0 0 300 200" preserveAspectRatio="none">
+                        <path d="M 0,0 C 30,80 60,120 90,140 C 120,155 180,170 240,175 L 300,178"
+                              fill="none" stroke="#f06a4d" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M 0,0 C 30,80 60,120 90,140 C 120,155 180,170 240,175 L 300,178 L 300,200 L 0,200 Z"
+                              fill="url(#fadeGrad)" opacity="0.15"/>
+                        <defs>
+                            <linearGradient id="fadeGrad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#f06a4d"/>
+                                <stop offset="100%" stop-color="#f06a4d" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+
+                    <!-- 데이터 점 -->
+                    <div class="curve-dot" style="left: 0%; top: 0%; background: var(--coral-500);"></div>
+                    <div class="curve-dot-label" style="left: 15%; top: 35%; color: var(--coral-500);">58%</div>
+                    <div class="curve-dot" style="left: 15%; top: 42%; background: var(--coral-400);"></div>
+                    <div class="curve-dot-label" style="left: 30%; top: 50%; color: var(--coral-500);">44%</div>
+                    <div class="curve-dot" style="left: 30%; top: 56%; background: var(--coral-400);"></div>
+                    <div class="curve-dot-label" style="left: 50%; top: 62%; color: var(--coral-500);">33%</div>
+                    <div class="curve-dot" style="left: 50%; top: 70%; background: var(--coral-400);"></div>
+                    <div class="curve-dot-label" style="left: 75%; top: 76%; color: var(--coral-500);">25%</div>
+                    <div class="curve-dot" style="left: 75%; top: 84%; background: var(--coral-400);"></div>
+                    <div class="curve-dot-label" style="left: 95%; top: 82%; color: var(--coral-500);">21%</div>
+                    <div class="curve-dot" style="left: 100%; top: 89%; background: var(--coral-400);"></div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <div class="title">😱 충격 포인트</div>
+                <div class="desc">
+                    • 20분 후 → 이미 <strong>42%</strong>를 잊어버림<br>
+                    • 1일 후 → <strong>67%</strong> 증발<br>
+                    • 한 달 후 → <strong>79%</strong> 사라짐<br><br>
+                    <strong>→ 복습을 안 하면 공부한 시간이 거의 날아간다는 뜻!</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 3: 다중저장고 모형 -->
+    <div class="page" data-page="L3-3">
+        <div style="padding-top: 24px;">
+            <div class="page-label">정보</div>
+            <h2 class="page-title">기억이 저장되는 과정 🗄️</h2>
+            <p class="page-subtitle">
+                우리 뇌에는 기억을 저장하는 3단계 창고가 있어!
+            </p>
+
+            <div class="memory-flow">
+                <div class="memory-box" style="background: var(--coral-50); border: 2px solid var(--coral-100);">
+                    <div class="emoji">👁️</div>
+                    <div class="label" style="color: var(--coral-500);">감각기억</div>
+                    <div class="time">0.5~3초</div>
+                </div>
+                <div class="memory-arrow"><i class="fas fa-chevron-right"></i></div>
+                <div class="memory-box" style="background: var(--yellow-50); border: 2px solid var(--yellow-100);">
+                    <div class="emoji">🧠</div>
+                    <div class="label" style="color: #b45309;">단기기억</div>
+                    <div class="time">15~30초</div>
+                </div>
+                <div class="memory-arrow"><i class="fas fa-chevron-right"></i></div>
+                <div class="memory-box" style="background: var(--primary-50); border: 2px solid var(--primary-100);">
+                    <div class="emoji">💾</div>
+                    <div class="label" style="color: var(--primary-600);">장기기억</div>
+                    <div class="time">평생!</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="section-title">
+                    <div class="icon"><i class="fas fa-key"></i></div>
+                    장기기억으로 보내는 열쇠
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--primary-50); color: var(--primary-500);">
+                        <i class="fas fa-repeat"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="title">반복(복습)</div>
+                        <div class="desc">같은 정보를 여러 번 반복하면 뇌가 "이건 중요하다!"고 판단해서 장기기억으로 보내.</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--lavender-50); color: var(--lavender-400);">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="title">연결(정교화)</div>
+                        <div class="desc">이미 아는 것과 새 정보를 연결하면 기억이 훨씬 오래가. "아, 이거랑 비슷하네!"</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--coral-50); color: var(--coral-500);">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="info-content">
+                        <div class="title">감정</div>
+                        <div class="desc">재미있거나 감동적인 내용은 더 잘 기억돼. 감정이 실리면 기억 강도가 올라가!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 4: 과학적 복습 활용주기 -->
+    <div class="page" data-page="L3-4">
+        <div style="padding-top: 24px;">
+            <div class="page-label">정보</div>
+            <h2 class="page-title">과학적 복습 타이밍 ⏰</h2>
+            <p class="page-subtitle">
+                언제 복습하느냐가 핵심!<br>
+                망각곡선을 이기는 <strong>최적의 복습 주기</strong>야.
+            </p>
+
+            <div class="card" style="padding: 24px 16px;">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="background: var(--coral-500);"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time" style="color: var(--coral-500);">🔴 당일 (학습 직후)</div>
+                            <div class="timeline-desc">수업 끝나고 <strong>10분 안에</strong> 핵심 키워드만 다시 보기. 코넬노트 왼쪽 영역 채우기!</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="background: var(--coral-400);"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time" style="color: var(--coral-400);">🟠 1일 후</div>
+                            <div class="timeline-desc">노트를 보지 않고 <strong>떠올려보기</strong>(인출 연습). 기억 안 나는 부분만 다시 확인.</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="background: var(--yellow-400);"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time" style="color: #b45309;">🟡 3일 후</div>
+                            <div class="timeline-desc">빈 종이에 <strong>백지 복습</strong>. 배운 내용을 구조화해서 적어보기.</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="background: var(--primary-400);"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time" style="color: var(--primary-500);">🟢 7일 후</div>
+                            <div class="timeline-desc">문제 풀기 또는 친구에게 <strong>설명하기</strong>. 설명할 수 있으면 진짜 이해한 거!</div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot" style="background: var(--primary-600);"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-time" style="color: var(--primary-600);">🔵 30일 후</div>
+                            <div class="timeline-desc">전체 흐름을 빠르게 <strong>총정리</strong>. 여기까지 오면 장기기억에 저장 완료!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-icon">💡</div>
+                <div class="tip-text">
+                    복습할 때마다 기억이 <strong>더 오래</strong> 유지돼!<br>
+                    처음엔 빨리 까먹지만, 반복할수록 망각 속도가 느려져.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 5: 암기 전략 5가지 -->
+    <div class="page" data-page="L3-5">
+        <div style="padding-top: 24px;">
+            <div class="page-label">참고</div>
+            <h2 class="page-title">암기 전략 5가지 💡</h2>
+            <p class="page-subtitle">
+                무작정 반복하는 건 비효율적!<br>
+                뇌과학에 기반한 똑똑한 암기법을 배워보자.
+            </p>
+
+            <div style="text-align:center;margin:12px 0 4px;padding:8px 16px;background:var(--yellow-100);border-radius:12px;font-size:13px;font-weight:700;color:#b45309;">
+                👆 각 카드를 눌러서 자세한 예시를 확인해보세요!
+            </div>
+
+            <div class="method-cards">
+                <div class="method-card" onclick="L3_toggleMethod(this)">
+                    <div class="method-icon" style="background: var(--coral-50);">🧩</div>
+                    <div class="method-content">
+                        <div class="title">1. 청킹 (Chunking)</div>
+                        <div class="desc">정보를 묶어서 덩어리로 기억하기</div>
+                        <div class="example">
+                            📌 전화번호: 01012345678 → 010-1234-5678<br>
+                            📌 역사 연도: 임진왜란(1592) → "이 오구이" 리듬으로
+                        </div>
+                    </div>
+                    <div class="method-toggle"><i class="fas fa-chevron-down"></i></div>
+                </div>
+
+                <div class="method-card" onclick="L3_toggleMethod(this)">
+                    <div class="method-icon" style="background: var(--yellow-50);">🔗</div>
+                    <div class="method-content">
+                        <div class="title">2. 연상법 (Association)</div>
+                        <div class="desc">이미 아는 것과 새 정보를 연결하기</div>
+                        <div class="example">
+                            📌 "mitochondria(미토콘드리아)" → "마이티한 콘드리아, 힘의 발전소!"<br>
+                            📌 두문자법: 태양계 행성 → "수금지화목토천해"
+                        </div>
+                    </div>
+                    <div class="method-toggle"><i class="fas fa-chevron-down"></i></div>
+                </div>
+
+                <div class="method-card" onclick="L3_toggleMethod(this)">
+                    <div class="method-icon" style="background: var(--lavender-50);">🔄</div>
+                    <div class="method-content">
+                        <div class="title">3. 인출 연습 (Retrieval)</div>
+                        <div class="desc">보지 않고 떠올리기 = 최강 암기법!</div>
+                        <div class="example">
+                            📌 책 덮고 → 방금 배운 내용 떠올려 적기<br>
+                            📌 플래시카드로 자기 테스트<br>
+                            📌 "다시 보기"보다 "다시 꺼내기"가 3배 효과!
+                        </div>
+                    </div>
+                    <div class="method-toggle"><i class="fas fa-chevron-down"></i></div>
+                </div>
+
+                <div class="method-card" onclick="L3_toggleMethod(this)">
+                    <div class="method-icon" style="background: var(--primary-50);">📅</div>
+                    <div class="method-content">
+                        <div class="title">4. 간격 반복 (Spaced Repetition)</div>
+                        <div class="desc">점점 간격을 넓혀가며 반복하기</div>
+                        <div class="example">
+                            📌 당일 → 1일 → 3일 → 7일 → 30일 (앞에서 배운 복습 주기!)<br>
+                            📌 벼락치기(집중 반복)보다 2배 이상 효과적
+                        </div>
+                    </div>
+                    <div class="method-toggle"><i class="fas fa-chevron-down"></i></div>
+                </div>
+
+                <div class="method-card" onclick="L3_toggleMethod(this)">
+                    <div class="method-icon" style="background: var(--coral-50);">🎨</div>
+                    <div class="method-content">
+                        <div class="title">5. 정교화 (Elaboration)</div>
+                        <div class="desc">깊이 생각하고 자기 말로 바꾸기</div>
+                        <div class="example">
+                            📌 "왜 이렇게 되지?" 질문 던지기<br>
+                            📌 친구에게 설명하듯 말해보기<br>
+                            📌 마인드맵으로 관계도 그리기
+                        </div>
+                    </div>
+                    <div class="method-toggle"><i class="fas fa-chevron-down"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 6: 필기노트 활용 복습법 -->
+    <div class="page" data-page="L3-6">
+        <div style="padding-top: 24px;">
+            <div class="page-label">참고</div>
+            <h2 class="page-title">2차시 코넬노트로 복습하기 📓</h2>
+            <p class="page-subtitle">
+                2차시에서 배운 코넬노트, 복습에도 활용할 수 있어!
+            </p>
+
+            <div class="card">
+                <div class="section-title">
+                    <div class="icon"><i class="fas fa-wand-magic-sparkles"></i></div>
+                    코넬노트 복습 3단계
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--coral-50); color: var(--coral-500);">1</div>
+                    <div class="info-content">
+                        <div class="title">오른쪽(필기) 가리기</div>
+                        <div class="desc">왼쪽 키워드만 보고 오른쪽 내용을 떠올려봐. 이게 바로 <strong>인출 연습</strong>!</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--yellow-50); color: #b45309;">2</div>
+                    <div class="info-content">
+                        <div class="title">기억 안 나는 부분 체크</div>
+                        <div class="desc">기억이 안 나는 키워드에 ★ 표시. 그 부분만 집중 복습하면 효율 최대!</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--primary-50); color: var(--primary-500);">3</div>
+                    <div class="info-content">
+                        <div class="title">요약 영역 업데이트</div>
+                        <div class="desc">복습할 때마다 아래 요약을 더 간결하게 수정. 최종 버전이 시험 직전 요약본!</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <div class="title">🔁 예습→수업→복습 사이클 완성!</div>
+                <div class="desc">
+                    2차시에서 배운 <strong>코넬노트</strong>로 수업 중 필기하고,<br>
+                    3차시에서 배운 <strong>복습 주기</strong>로 타이밍 맞춰 반복하면<br>
+                    → 최강의 학습 루프 완성! 🎯
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 7: AI 도구 활용 복습 -->
+    <div class="page" data-page="L3-7">
+        <div style="padding-top: 24px;">
+            <div class="page-label">참고</div>
+            <h2 class="page-title">AI로 복습을 더 쉽게! 🤖</h2>
+            <p class="page-subtitle">
+                암기와 복습을 도와주는 AI 도구들!<br>
+                도구는 도구일 뿐, 핵심은 내가 직접 생각하는 거야.
+            </p>
+
+            <div class="tool-grid">
+                <div class="tool-card">
+                    <div class="emoji">📇</div>
+                    <div class="name">Quizlet</div>
+                    <div class="desc">플래시카드로<br>간격 반복 자동화</div>
+                </div>
+                <div class="tool-card">
+                    <div class="emoji">📓</div>
+                    <div class="name">NotebookLM</div>
+                    <div class="desc">자료 업로드하면<br>AI가 퀴즈 생성</div>
+                </div>
+                <div class="tool-card">
+                    <div class="emoji">🐳</div>
+                    <div class="name">암기고래</div>
+                    <div class="desc">플래시카드로<br>단어·개념 반복 암기</div>
+                </div>
+                <div class="tool-card">
+                    <div class="emoji">💬</div>
+                    <div class="name">ChatGPT / Gemini</div>
+                    <div class="desc">모르는 것 질문하기<br>설명 연습 상대</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <div class="tip-icon">⚠️</div>
+                <div class="tip-text">
+                    <strong>주의!</strong> AI가 대신 외워주는 건 아니야!<br>
+                    AI는 '도구'일 뿐, <strong>내가 직접 떠올리고 생각하는 과정</strong>이 진짜 공부야.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 8: 과학적 복습 스케줄 (참고용) -->
+    <div class="page" data-page="L3-8">
+        <div style="padding-top: 24px;">
+            <div class="page-label">참고</div>
+            <h2 class="page-title">과학적 복습 스케줄 📅</h2>
+            <p class="page-subtitle">에빙하우스 망각곡선에 기반한<br>최적의 복습 타이밍을 참고해봐!</p>
+
+            <div class="card">
+                <div class="section-title"><div class="icon" style="background:var(--primary-50);color:var(--primary-500);"><i class="fas fa-calendar-check"></i></div>과목별 복습 예시</div>
+                <table class="schedule-table" style="font-size:11px;"><tr><th>과목</th><th>당일</th><th>1일 후</th><th>3일 후</th><th>7일 후</th></tr>
+                <tr><td style="font-weight:700;color:var(--coral-500);">수학</td><td>오답 다시 풀기</td><td>틀린 유형 3문제</td><td>단원 테스트</td><td>오답노트 복습</td></tr>
+                <tr><td style="font-weight:700;color:var(--primary-500);">영어</td><td>본문 소리내 읽기</td><td>단어 인출 테스트</td><td>빈칸 채우기</td><td>전체 해석 복습</td></tr>
+                <tr><td style="font-weight:700;color:var(--lavender-400);">사회/과학</td><td>핵심 키워드 정리</td><td>백지 복습</td><td>마인드맵 그리기</td><td>문제풀이 확인</td></tr></table>
+            </div>
+
+            <div class="card">
+                <div class="section-title"><div class="icon" style="background:var(--yellow-50);color:#b45309;"><i class="fas fa-lightbulb"></i></div>복습 타이밍별 전략</div>
+                <div class="info-row"><div class="info-icon" style="background:var(--coral-50);color:var(--coral-500);">⏰</div><div class="info-content"><div class="title" style="color:var(--coral-500);">당일 복습 (10분)</div><div class="desc">수업 끝나고 바로! 노트를 보며 핵심 3가지만 떠올리기.</div></div></div>
+                <div class="info-row"><div class="info-icon" style="background:var(--yellow-50);color:#b45309;">📝</div><div class="info-content"><div class="title" style="color:#b45309;">1일 후 복습 (15분)</div><div class="desc">노트를 덮고 인출 연습! 못 떠올린 부분만 다시 확인.</div></div></div>
+                <div class="info-row"><div class="info-icon" style="background:var(--lavender-50);color:var(--lavender-400);">🔄</div><div class="info-content"><div class="title" style="color:var(--lavender-400);">3일 후 복습 (20분)</div><div class="desc">기억이 흐릿해지는 시점! 문제 풀기, 백지 복습으로 확인.</div></div></div>
+                <div class="info-row"><div class="info-icon" style="background:var(--primary-50);color:var(--primary-500);">🏆</div><div class="info-content"><div class="title" style="color:var(--primary-500);">7일 후 복습 (15분)</div><div class="desc">여기까지 오면 장기기억 전환 완료! 빈틈만 메우면 돼.</div></div></div>
+            </div>
+
+            <div class="highlight-box">
+                <div class="title">💡 복습의 황금 법칙</div>
+                <div class="desc">① <strong>"다시 보기"보다 "다시 꺼내기"</strong>가 3배 효과<br>② 한 번에 오래보다 <strong>짧게 여러 번</strong>이 효율적<br>③ <strong>"어디를 모르는지 아는 것"</strong>이 중요<br>④ <strong>잠자기 전 5분 복습</strong>은 수면 중 기억 정리에 도움!</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 9: 마무리 -->
+    <div class="page" data-page="L3-9">
+        <div style="padding-top: 24px; text-align: center;">
+            <div class="page-label">3차시 완료!</div>
+            <h2 class="page-title" style="text-align: center;">
+                오늘 배운 것 정리 ✨
+            </h2>
+
+            <div class="card" style="text-align: left;">
+                <div class="section-title">
+                    <div class="icon"><i class="fas fa-check-double"></i></div>
+                    3차시 핵심 요약
+                </div>
+                <div class="summary-list">
+                    <div class="summary-item">
+                        <div class="summary-num">1</div>
+                        <div class="summary-text"><strong>망각곡선</strong>: 복습 안 하면 하루 만에 67% 잊어버려</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-num">2</div>
+                        <div class="summary-text"><strong>당일→1일→3일→7일→30일</strong> 복습 주기를 지키자</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-num">3</div>
+                        <div class="summary-text">"다시 보기"보다 <strong>"다시 꺼내기"(인출 연습)</strong>가 3배 효과!</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-num">4</div>
+                        <div class="summary-text">AI 도구는 복습을 <strong>도와주는 도구</strong>일 뿐!</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="text-align: left;">
+                <div class="title">📢 다음 시간 예고</div>
+                <div class="desc">
+                    <strong>4차시: 시험 불안 관리하기</strong><br>
+                    시험 전 멘탈 관리법과<br>
+                    나만의 학습 루틴을 완성할 거야!
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+    <div class="nav-bar" style="display:none;" id="navBar_L3">
+        <div class="nav-inner">
+            <button class="btn btn-secondary" id="prevBtn_L3" onclick="L3_prevPage()" style="display: none;">
+                <i class="fas fa-chevron-left"></i> 이전
+            </button>
+            <button class="btn btn-primary" id="nextBtn_L3" onclick="L3_nextPage()">
+                다음 <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+
+<!-- ══════════════════════════════════════════
+     4차시: 시험 불안 관리하기
+     ══════════════════════════════════════════ -->
+
+    <div class="header lesson-header" style="display:none;" id="header_L4">
+        <div class="header-inner">
+            <div class="header-title" style="cursor:pointer;" onclick="backToMenu()">
+                <i class="fas fa-chevron-left" style="font-size:14px; margin-right:2px;"></i>
+                <i class="fas fa-shield-heart"></i>
+                <span>4차시 · 시험 불안 관리하기</span>
+            </div>
+            <div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill_L4" style="width: 11%"></div>
+                </div>
+                <div class="page-count"><span id="currentPage_L4">1</span> / <span id="totalPages_L4">12</span></div>
+            </div>
+        </div>
+    </div>
+
+<div class="lesson-section" id="lessonSection4">
+<div class="container lesson-container" id="lessonContent4">
+
+    <div class="page active" data-page="L4-1">
+        <div style="padding-top: 24px; text-align: center;">
+            <div class="page-label">자기주도학습 비밀노트 · 마지막 차시</div>
+            <h1 class="page-title" style="font-size: 28px; text-align: center;">시험 불안<br>관리하기 🛡️</h1>
+            <p class="page-subtitle" style="text-align: center; margin-bottom: 20px;">시험만 다가오면 불안한 너를 위한<br>멘탈 관리 + 시험 전략 총정리!</p>
+            <div class="img-container" id="img_L4_main">
+                <img src="https://ooo9luzdoplzs8wq.public.blob.vercel-storage.com/%EC%A4%91%ED%95%99%EA%B5%90%20%EC%8A%B5%EA%B4%80%EC%B6%94%EB%A1%A0/%EC%82%AC%EC%A7%844.png" alt="4차시 메인" style="width:100%;border-radius:16px;object-fit:cover;">
+            </div><!-- 🖼️ [img_L4_main] 4차시 메인 이미지 URL --></div>
+            <div class="highlight-box" style="text-align: left;">
+                <div class="title">💡 오늘의 미션</div>
+                <div class="desc">
+                    ① 시험 <strong>불안의 원리</strong> 이해<br>
+                    ② <strong>거꾸로 공부법</strong>으로 시험 준비 전략 세우기<br>
+                    ③ <strong>주간 거꾸로 투두 보드</strong> 작성<br>
+                    ④ 나만의 <strong>학습 루틴 완성</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page" data-page="L4-2">
+        <div style="padding-top: 24px;">
+            <div class="page-label">정보</div>
+            <h2 class="page-title">시험 불안, 왜 생길까? 😰</h2>
+            <p class="page-subtitle">불안한 건 비정상이 아니야!<br>뇌가 "중요한 상황이야!"라고 알려주는 신호야.</p>
+
+            <div class="card">
+                <div class="section-title"><div class="icon" style="background: var(--coral-50); color: var(--coral-500);"><i class="fas fa-brain"></i></div>불안의 메커니즘</div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--coral-50); color: var(--coral-500);"><i class="fas fa-bell"></i></div>
+                    <div class="info-content">
+                        <div class="title" style="color: var(--coral-500);">편도체의 경보</div>
+                        <div class="desc">뇌의 편도체가 "위험!" 인식 → 스트레스 호르몬(코르티솔) 분비 → 심장 빨라지고, 손에 땀이 남</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--primary-50); color: var(--primary-500);"><i class="fas fa-chart-line"></i></div>
+                    <div class="info-content">
+                        <div class="title">적당한 긴장 = 무기!</div>
+                        <div class="desc">여키스-도슨 법칙: 적당한 각성 상태에서 집중력과 기억력이 최고점. 완전 편안하면 오히려 성적 떨어져!</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--coral-50); color: var(--coral-500);"><i class="fas fa-arrow-down"></i></div>
+                    <div class="info-content">
+                        <div class="title" style="color: var(--coral-500);">과도한 불안 = 블랙아웃</div>
+                        <div class="desc">너무 긴장 → 전두엽(사고 담당) 기능 저하 → 아는 것도 기억 안 남. 이걸 조절하는 게 핵심!</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <div style="font-size: 14px; font-weight: 700; margin-bottom: 8px;">지금 나의 시험 불안 레벨은?</div>
+                <div class="anxiety-meter">
+                    <div style="position: relative;">
+                        <div class="meter-bar-bg"></div>
+                        <input type="range" min="0" max="10" value="5" class="meter-range" id="anxietySlider" oninput="L4_updateAnxiety(this.value)">
+                    </div>
+                    <div class="meter-labels"><span>😌 차분</span><span>😐 보통</span><span>😰 매우 불안</span></div>
+                    <div class="meter-value" id="anxietyValue">5 / 10</div>
+                </div>
+                <div class="tip-box">
+                    <div class="tip-icon">🎯</div>
+                    <div class="tip-text">불안은 없애는 게 아니라 <strong>3~5 수준으로 조절</strong>하는 거야!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page" data-page="L4-3">
+        <div style="padding-top: 24px;">
+            <div class="page-label">정보</div>
+            <h2 class="page-title">시험 전 멘탈 관리법 🧘</h2>
+            <p class="page-subtitle">과학적으로 검증된 불안 조절 방법들이야!</p>
+
+            <div class="card">
+                <div class="section-title"><div class="icon"><i class="fas fa-wind"></i></div>4-7-8 호흡법 (지금 해보자!)</div>
+                <p style="font-size: 13px; color: var(--text-mid); margin-bottom: 12px; line-height: 1.5;">원을 터치하면 호흡 가이드가 시작돼!<br>4초 들이쉬고 → 7초 멈추고 → 8초 내쉬기</p>
+                <div class="breath-circle-wrap">
+                    <div class="breath-circle" id="breathCircle" onclick="L4_startBreathing()">
+                        <div class="breath-text" id="breathText">터치!</div>
+                        <div class="breath-sub" id="breathSub">시작하려면 터치</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="section-title"><div class="icon" style="background: var(--lavender-50); color: var(--lavender-400);"><i class="fas fa-list-check"></i></div>시험 직전 3가지 루틴</div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--yellow-50); color: #b45309;">✍️</div>
+                    <div class="info-content">
+                        <div class="title">불안 써내기 (Expressive Writing)</div>
+                        <div class="desc">시험 직전 10분, 불안한 감정을 종이에 쏟아내. 시카고 대학 연구에서 이 방법으로 <strong>성적이 향상</strong>된 결과가 있어!</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--primary-50); color: var(--primary-500);">💪</div>
+                    <div class="info-content">
+                        <div class="title">긍정 자기 대화</div>
+                        <div class="desc">"난 준비했어" "못 풀면 넘기고 돌아오면 돼" "긴장은 내가 집중하고 있다는 증거야" — 스스로에게 말해줘!</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--lavender-50); color: var(--lavender-400);">🌙</div>
+                    <div class="info-content">
+                        <div class="title">시험 전날 = 수면이 최고의 복습</div>
+                        <div class="desc">수면 중 기억 공고화(consolidation)가 일어나. 벼락치기로 1시간 더 외우는 것보다 <strong>7시간 수면이 성적에 더 유리!</strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page" data-page="L4-4">
+        <div style="padding-top: 24px;">
+            <div class="page-label">참고</div>
+            <h2 class="page-title">거꾸로 공부법 🔄</h2>
+            <p class="page-subtitle">
+                거꾸로 공부법은 날짜만 D-21까지 세는 게 아니라<br>
+                <strong>내 시험 시간표를 기준으로 과목별 완료 순서를 거꾸로 세우는</strong> 방법이야.
+            </p>
+
+            <div class="card" style="padding: 18px 16px;">
+                <div class="section-title"><div class="icon"><i class="fas fa-calendar-check"></i></div>핵심 원리 3가지</div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--primary-50); color: var(--primary-500);">1</div>
+                    <div class="info-content">
+                        <div class="title">가장 먼저 보는 과목을 가장 먼저 끝낸다</div>
+                        <div class="desc">시험 1일차 과목일수록 <strong>본학습 완료 시점</strong>을 제일 앞당겨야 해. 시험 직전에 쫓겨서 새 진도를 나가면 멘탈이 무너져.</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--lavender-50); color: var(--lavender-400);">2</div>
+                    <div class="info-content">
+                        <div class="title">시험 전날은 '새 진도'가 아니다</div>
+                        <div class="desc">시험 전날에는 새로운 개념 시작 금지. <strong>요약 노트 읽기, 오답 확인, 실수 체크</strong>만 하는 가벼운 마무리 시간이어야 해.</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon" style="background: var(--coral-50); color: var(--coral-500);">3</div>
+                    <div class="info-content">
+                        <div class="title">시험기간 중 다음날 과목 점검하기</div>
+                        <div class="desc">오늘 시험이 끝났다고 끝이 아니야. 집에 돌아오면 휴식 후 <strong>다음날 시험 볼 과목</strong>을 가볍게 훑어보는 흐름까지 이어져야 해.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <div class="title">💡 거꾸로 공부법의 최종 목표</div>
+                <div class="desc">
+                    <strong>"시험기간에 들어서면 새로 공부할 게 없는 상태"</strong>를 미리 만드는 것.<br>
+                    본학습은 시험 며칠 전(D-day 이전)에 모두 끝내고, 시험 직전과 시험 기간 중에는 <strong>가볍게 점검만</strong> 할 수 있도록 만드는 게 핵심이야!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page" data-page="L4-5">
+        <div style="padding-top: 24px;">
+            <div class="page-label">참고</div>
+            <h2 class="page-title">거꾸로 시험 로드맵 🗓️</h2>
+            <p class="page-subtitle">달력을 기준으로 나의 행동 모드를 바꿔봐!</p>
+
+            <div class="card" style="padding: 20px 16px;">
+                <div class="week-tabs">
+                    <div class="week-tab active" onclick="L4_showWeek(1)">
+                        <div class="week-num">D-21</div>
+                        <div>3주 전</div>
+                    </div>
+                    <div class="week-tab" onclick="L4_showWeek(2)">
+                        <div class="week-num">D-14</div>
+                        <div>2주 전</div>
+                    </div>
+                    <div class="week-tab" onclick="L4_showWeek(3)">
+                        <div class="week-num">D-7</div>
+                        <div>1주 전</div>
+                    </div>
+                    <div class="week-tab" onclick="L4_showWeek(4)">
+                        <div class="week-num">D-Day</div>
+                        <div>시험기간</div>
+                    </div>
+                </div>
+
+                <div class="week-panel active" data-week="1">
+                    <div style="background: var(--primary-50); border-radius: 12px; padding: 14px 16px; margin-bottom: 14px;">
+                        <div style="font-size: 13px; font-weight: 800; color: var(--primary-600); margin-bottom: 4px;">🏃 3주 전: 진도 달리기 (1일차 과목부터!)</div>
+                        <div style="font-size: 12px; color: var(--text-mid); line-height: 1.5;">가장 먼저 시험을 보는 <strong>1일차 과목부터 개념 진도</strong>를 확실하게 끝내기 시작하는 시기야.</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-icon" style="background: var(--primary-50); color: var(--primary-500);">📖</div>
+                        <div class="info-content">
+                            <div class="title">핵심 활동</div>
+                            <div class="desc">교과서/노트 개념 이해 / 1순위 타겟 과목 진도 빼기 / 모르는 내용 질문하기</div>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-icon" style="background: var(--coral-50); color: var(--coral-500);">⚠️</div>
+                        <div class="info-content">
+                            <div class="title">주의사항</div>
+                            <div class="desc">좋아하는 과목, 맨 마지막 날 시험 보는 과목부터 공부하면 나중에 진도가 밀려 멘탈이 깨져!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="week-panel" data-week="2">
+                    <div style="background: var(--lavender-50); border-radius: 12px; padding: 14px 16px; margin-bottom: 14px;">
+                        <div style="font-size: 13px; font-weight: 800; color: var(--lavender-400); margin-bottom: 4px;">✍️ 2주 전: 본학습 마감 & 문제풀이</div>
+                        <div style="font-size: 12px; color: var(--text-mid); line-height: 1.5;">모든 과목의 개념 진도를 멈추고 <strong>기본 문제풀이와 오답 찾기</strong>에 집중해야 하는 시기야.</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-icon" style="background: var(--lavender-50); color: var(--lavender-400);">📝</div>
+                        <div class="info-content">
+                            <div class="title">핵심 활동</div>
+                            <div class="desc">단원별 문제 풀기 / 틀린 이유 분석하기 / 암기해야 할 키워드 형광펜 표시하기</div>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-icon" style="background: var(--coral-50); color: var(--coral-500);">⚠️</div>
+                        <div class="info-content">
+                            <div class="title">주의사항</div>
+                            <div class="desc">이 주간에 진도를 끝내지 못하면 1주 전에 오답을 점검할 시간이 아예 사라져버려.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="week-panel" data-week="3">
+                    <div style="background: var(--yellow-50); border-radius: 12px; padding: 14px 16px; margin-bottom: 14px;">
+                        <div style="font-size: 13px; font-weight: 800; color: #b45309; margin-bottom: 4px;">🔄 1주 전: 거꾸로 점검 모드</div>
+                        <div style="font-size: 12px; color: var(--text-mid); line-height: 1.5;">새 진도 절대 금지! <strong>마지막 날 과목부터 1일차 과목 역순</strong>으로 오답만 확인해.</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-icon" style="background: var(--yellow-50); color: #b45309;">🔎</div>
+                        <div class="info-content">
+                            <div class="title">핵심 활동</div>
+                            <div class="desc">주말: 3일차/2일차 과목 최종 마무리<br>시험 전날: 1일차 과목 오답 & 요약 노트만 읽기</div>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-icon" style="background: var(--primary-50); color: var(--primary-500);">💡</div>
+                        <div class="info-content">
+                            <div class="title">꿀팁</div>
+                            <div class="desc">불안해도 새로운 문제집을 풀지 마. 내가 이미 틀렸던 문제를 확실히 내 것으로 만드는 게 점수를 올려.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="week-panel" data-week="4">
+                    <div style="background: var(--coral-50); border-radius: 12px; padding: 14px 16px; margin-bottom: 14px;">
+                        <div style="font-size: 13px; font-weight: 800; color: var(--coral-500); margin-bottom: 4px;">🛡️ 시험 기간: 실전 & 다음날 준비</div>
+                        <div style="font-size: 12px; color: var(--text-mid); line-height: 1.5;">오늘 시험은 잊어버리고 <strong>오직 내일 시험 볼 과목</strong>에만 멘탈을 집중해.</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-icon" style="background: var(--coral-50); color: var(--coral-500);">🔁</div>
+                        <div class="info-content">
+                            <div class="title">핵심 활동</div>
+                            <div class="desc">집에 오면 낮잠 1시간으로 뇌 식히기 / 기상 후 내일 과목 필수 암기 사항 빠르게 훑어보기</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page" data-page="L4-6">
+        <div style="padding-top: 24px;">
+            <div class="page-label">참고</div>
+            <h2 class="page-title">학습 사이클 종합 점검 ✅</h2>
+            <p class="page-subtitle">1~4차시에서 배운 것들을 모아서<br>나의 학습 습관을 점검해보자!</p>
+
+            <div class="card" style="padding: 20px 16px;">
+                <div class="check-category" style="color: #b45309;"><i class="fas fa-book-open"></i> 예습 (2차시)</div>
+                <div class="checklist">
+                    <div class="check-item" onclick="L4_toggleCheck(this)"><div class="check-box"><i class="fas fa-check"></i></div><div class="check-content"><div style="font-size:13px; font-weight:500;">수업 전에 교과서 목차/소제목 훑어보기</div></div></div>
+                    <div class="check-item" onclick="L4_toggleCheck(this)"><div class="check-box"><i class="fas fa-check"></i></div><div class="check-content"><div style="font-size:13px; font-weight:500;">모르는 단어·개념에 미리 표시해두기</div></div></div>
+                </div>
+                <div class="check-category" style="color: var(--coral-500);"><i class="fas fa-pen"></i> 수업 (2차시)</div>
+                <div class="checklist">
+                    <div class="check-item" onclick="L4_toggleCheck(this)"><div class="check-box"><i class="fas fa-check"></i></div><div class="check-content"><div style="font-size:13px; font-weight:500;">스마트폰을 가방에 넣고 수업에 집중하기</div></div></div>
+                    <div class="check-item" onclick="L4_toggleCheck(this)"><div class="check-box"><i class="fas fa-check"></i></div><div class="check-content"><div style="font-size:13px; font-weight:500;">코넬노트(또는 3단 구조화)로 필기하기</div></div></div>
+                </div>
+                <div class="check-category" style="color: var(--primary-500);"><i class="fas fa-rotate"></i> 복습 (3차시)</div>
+                <div class="checklist">
+                    <div class="check-item" onclick="L4_toggleCheck(this)"><div class="check-box"><i class="fas fa-check"></i></div><div class="check-content"><div style="font-size:13px; font-weight:500;">수업 직후 10분 안에 핵심을 다시 보기</div></div></div>
+                    <div class="check-item" onclick="L4_toggleCheck(this)"><div class="check-box"><i class="fas fa-check"></i></div><div class="check-content"><div style="font-size:13px; font-weight:500;">"다시 보기" 대신 "다시 꺼내기"(인출 연습)</div></div></div>
+                </div>
+                <div class="check-category" style="color: var(--lavender-400);"><i class="fas fa-shield-heart"></i> 시험 관리 (4차시)</div>
+                <div class="checklist">
+                    <div class="check-item" onclick="L4_toggleCheck(this)"><div class="check-box"><i class="fas fa-check"></i></div><div class="check-content"><div style="font-size:13px; font-weight:500;">시험 1일차 과목부터 본학습 끝내기</div></div></div>
+                    <div class="check-item" onclick="L4_toggleCheck(this)"><div class="check-box"><i class="fas fa-check"></i></div><div class="check-content"><div style="font-size:13px; font-weight:500;">시험 전날엔 새 진도 대신 오답 점검만 하기</div></div></div>
+                </div>
+            </div>
+            <div class="tip-box">
+                <div class="tip-icon">🎯</div>
+                <div class="tip-text">전부 할 필요 없어! <strong>지금 안 되고 있는 것 2~3개만</strong> 골라서 먼저 실천해봐.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page" data-page="L4-7">
+        <div style="padding-top: 24px;">
+            <div class="page-label">활동</div>
+            <h2 class="page-title">거꾸로 투두 보드 📝</h2>
+            <p class="page-subtitle">시험표를 먼저 적고, 이번 주에 끝낼<br>최우선 3과목만 계획해보자!</p>
+
+            <div class="worksheet" style="padding: 20px 16px; margin-bottom: 24px;">
+                <div style="font-size: 14px; font-weight: 800; color: var(--primary-600); margin-bottom: 12px;"><i class="fas fa-calendar-day"></i> STEP 1. 거꾸로 3일 시뮬레이터</div>
+                <div style="font-size: 12px; color: var(--text-mid); margin-bottom: 16px;">시험 과목을 순서대로 적어봐. 시험 직전 3일에 무엇을 해야 할지 거꾸로 세팅해줄게!</div>
+                
+                <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                    <div style="flex: 1;"><div style="font-size:11px; font-weight:700; color:var(--coral-500); margin-bottom:4px; text-align:center;">1일차 시험</div><input type="text" id="day1Input" placeholder="예: 수학" oninput="L4_runSimulator()" style="width:100%; padding:8px; font-size:12px; text-align:center; border:1px solid var(--coral-100); border-radius:8px;"></div>
+                    <div style="flex: 1;"><div style="font-size:11px; font-weight:700; color:var(--lavender-400); margin-bottom:4px; text-align:center;">2일차 시험</div><input type="text" id="day2Input" placeholder="예: 국어" oninput="L4_runSimulator()" style="width:100%; padding:8px; font-size:12px; text-align:center; border:1px solid var(--lavender-100); border-radius:8px;"></div>
+                    <div style="flex: 1;"><div style="font-size:11px; font-weight:700; color:var(--primary-400); margin-bottom:4px; text-align:center;">3일차 시험</div><input type="text" id="day3Input" placeholder="예: 영어" oninput="L4_runSimulator()" style="width:100%; padding:8px; font-size:12px; text-align:center; border:1px solid var(--primary-100); border-radius:8px;"></div>
+                </div>
+
+                <div style="background: var(--warm-gray); border-radius: 12px; padding: 16px; position: relative;">
+                    <div style="font-size:12px; font-weight:800; text-align:center; margin-bottom:12px; color:var(--text-dark);">🔄 시험 직전 3일 거꾸로 전략</div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; background: #fff; padding: 8px 12px; border-radius: 8px; border-left: 3px solid var(--primary-400);">
+                            <span style="font-size:12px; font-weight:700;">D-3 (3일 전)</span>
+                            <span style="font-size:12px; color:var(--text-mid);">👉 <strong id="simD3" style="color:var(--primary-500);">3일차 과목</strong> 오답/암기 점검</span>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; background: #fff; padding: 8px 12px; border-radius: 8px; border-left: 3px solid var(--lavender-400);">
+                            <span style="font-size:12px; font-weight:700;">D-2 (2일 전)</span>
+                            <span style="font-size:12px; color:var(--text-mid);">👉 <strong id="simD2" style="color:var(--lavender-400);">2일차 과목</strong> 오답/암기 점검</span>
+                        </div>
+                        <div style="display: flex; align-items: center; justify-content: space-between; background: #fff; padding: 8px 12px; border-radius: 8px; border-left: 3px solid var(--coral-500);">
+                            <span style="font-size:12px; font-weight:700;">D-1 (시험 전날)</span>
+                            <span style="font-size:12px; color:var(--text-mid);">👉 <strong id="simD1" style="color:var(--coral-500);">1일차 과목</strong> 오답/요약 점검</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="font-size: 14px; font-weight: 800; color: var(--primary-600); margin-bottom: 12px; padding: 0 4px;"><i class="fas fa-list-check"></i> STEP 2. 주간 거꾸로 투두 보드</div>
+
+            <div class="card" style="text-align:center;padding:40px 24px;border:2px dashed var(--primary-300);background:var(--primary-50);">
+                <div style="font-size:48px;margin-bottom:16px;">📋✍️</div>
+                <div style="font-size:18px;font-weight:800;color:var(--primary-600);margin-bottom:8px;">거꾸로 투두 보드 실습지</div>
+                <div style="font-size:14px;color:var(--text-mid);line-height:1.7;"><strong>강사님이 배부해준 종이</strong>에<br>직접 작성해봅시다! 📝</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page" data-page="L4-8">
+        <div style="padding-top: 24px;">
+            <div class="page-label">참고</div>
+            <h2 class="page-title">AI로 시험 플래너 만들기 🤖</h2>
+            <p class="page-subtitle">AI에게 구체적으로 물어보면<br>나만의 맞춤 계획을 도와줘!</p>
+
+            <div class="card">
+                <div class="section-title"><div class="icon"><i class="fas fa-wand-magic-sparkles"></i></div>AI에게 이렇게 물어봐!</div>
+
+                <div style="background: var(--primary-50); border-radius: 12px; padding: 16px; margin-bottom: 12px; border-left: 3px solid var(--primary-400);">
+                    <div style="font-size: 12px; font-weight: 700; color: var(--primary-500); margin-bottom: 4px;">거꾸로 공부법 요청</div>
+                    <div style="font-size: 13px; color: var(--text-dark); line-height: 1.5;">"1일차 수학, 2일차 국어, 3일차 영어 시험이야. 거꾸로 공부법으로 1일차 과목부터 본학습을 끝내고, 전날은 오답 점검만 하게 3주 계획 짜줘. 하루 공부 시간은 3시간이야."</div>
+                </div>
+                <div style="background: var(--lavender-50); border-radius: 12px; padding: 16px; margin-bottom: 12px; border-left: 3px solid var(--lavender-400);">
+                    <div style="font-size: 12px; font-weight: 700; color: var(--lavender-400); margin-bottom: 4px;">복습 주기 적용 요청</div>
+                    <div style="font-size: 13px; color: var(--text-dark); line-height: 1.5;">"수학 이차방정식 단원을 당일-1일-3일-7일 복습 주기에 맞춰서 구체적인 계획 짜줘."</div>
+                </div>
+                <div style="background: var(--yellow-50); border-radius: 12px; padding: 16px; border-left: 3px solid var(--yellow-400);">
+                    <div style="font-size: 12px; font-weight: 700; color: #b45309; margin-bottom: 4px;">오답 분석 요청</div>
+                    <div style="font-size: 13px; color: var(--text-dark); line-height: 1.5;">"영어 시험에서 관계대명사 문제를 자주 틀려. 관계대명사 총정리해주고, 빈칸 문제 10개 만들어줘."</div>
+                </div>
+            </div>
+            <div class="tip-box">
+                <div class="tip-icon">⚠️</div>
+                <div class="tip-text">AI 계획은 <strong>시작점</strong>! 내 상황에 맞게 수정하고 실천하면서 조절하는 게 진짜 자기주도학습이야.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page" data-page="L4-9">
+        <div style="padding-top: 24px;">
+            <div class="page-label">활동</div>
+            <h2 class="page-title">나만의 학습 루틴 완성! 🏆</h2>
+            <p class="page-subtitle">4차시 동안 배운 모든 것을 합쳐서<br>나의 일일 학습 루틴을 디자인해보자!</p>
+
+            <div class="worksheet">
+                <div class="worksheet-title">⏰ 나의 하루 학습 루틴</div>
+                <div class="worksheet-desc">평일 기준, 이상적인 나의 하루를 적어봐!</div>
+                <div class="routine-row"><div class="routine-time">🌅 아침</div><div class="routine-bar"><input type="text" placeholder="예) 등교 전 10분 어제 복습"></div></div>
+                <div class="routine-row"><div class="routine-time">🏫 수업중</div><div class="routine-bar"><input type="text" placeholder="예) 코넬노트로 필기"></div></div>
+                <div class="routine-row"><div class="routine-time">🍱 점심</div><div class="routine-bar"><input type="text" placeholder="예) 오전 수업 키워드 복습 5분"></div></div>
+                <div class="routine-row"><div class="routine-time">🏠 하교후</div><div class="routine-bar"><input type="text" placeholder="예) 오늘 배운 것 백지 복습 20분"></div></div>
+                <div class="routine-row"><div class="routine-time">📚 자습</div><div class="routine-bar"><input type="text" placeholder="예) 25분 집중+5분 휴식 (뽀모도로)"></div></div>
+                <div class="routine-row"><div class="routine-time">🌙 취침전</div><div class="routine-bar"><input type="text" placeholder="예) 내일 예습 10분 + 단어 암기"></div></div>
+
+                <div class="form-group" style="margin-top: 24px;">
+                    <div class="form-label"><span class="num">✍</span> 4차시를 마치며 나에게 한마디!</div>
+                    <textarea placeholder="예) 방법을 알았으니까, 딱 하나만 내일부터 시작하자!"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 10: 과목별 시험 공부법 (NEW) -->
+    <div class="page" data-page="L4-10">
+        <div style="padding-top: 24px;">
+            <div class="page-label">참고</div>
+            <h2 class="page-title">과목별 시험 공부법 📖</h2>
+            <p class="page-subtitle">모든 과목을 같은 방법으로 공부하면 안 돼!<br>과목 특성에 맞는 전략이 따로 있어.</p>
+
+            <div class="card">
+                <div class="section-title"><div class="icon" style="background:var(--coral-50);color:var(--coral-500);"><i class="fas fa-calculator"></i></div>수학 · 과학 (이해+풀이형)</div>
+                <div class="info-row"><div class="info-icon" style="background:var(--coral-50);color:var(--coral-500);">1</div><div class="info-content"><div class="title" style="color:var(--coral-500);">개념 먼저, 문제는 나중에</div><div class="desc">교과서 개념을 자기 말로 설명할 수 있어야 해. 공식만 외우고 바로 문제 푸는 건 모래 위에 집 짓는 것!</div></div></div>
+                <div class="info-row"><div class="info-icon" style="background:var(--coral-50);color:var(--coral-500);">2</div><div class="info-content"><div class="title" style="color:var(--coral-500);">오답노트 = 최고의 시험 교재</div><div class="desc">틀린 문제만 모아서 '왜 틀렸는지' 원인 분류하기. 계산 실수? 개념 부족? 문제 해석 오류?</div></div></div>
+                <div class="info-row"><div class="info-icon" style="background:var(--coral-50);color:var(--coral-500);">3</div><div class="info-content"><div class="title" style="color:var(--coral-500);">유형별 풀이 패턴 만들기</div><div class="desc">비슷한 유형 3~5개 묶어서 "이런 문제 → 이렇게 접근" 나만의 패턴을 정리해봐.</div></div></div>
+            </div>
+            <div class="card">
+                <div class="section-title"><div class="icon" style="background:var(--primary-50);color:var(--primary-500);"><i class="fas fa-book"></i></div>국어 · 영어 (독해+암기형)</div>
+                <div class="info-row"><div class="info-icon" style="background:var(--primary-50);color:var(--primary-500);">1</div><div class="info-content"><div class="title" style="color:var(--primary-500);">교과서 본문 3회독 전략</div><div class="desc">1회독: 전체 흐름 → 2회독: 핵심 문장 표시 → 3회독: 빈칸 인출 테스트. 소리 내 읽으면 효과 2배!</div></div></div>
+                <div class="info-row"><div class="info-icon" style="background:var(--primary-50);color:var(--primary-500);">2</div><div class="info-content"><div class="title" style="color:var(--primary-500);">변형 문제 예측하기</div><div class="desc">"선생님이라면 어디서 문제를 낼까?" 생각하며 읽기. 주제, 접속사 뒤, 지시어가 단골 출제 포인트!</div></div></div>
+            </div>
+            <div class="card">
+                <div class="section-title"><div class="icon" style="background:var(--lavender-50);color:var(--lavender-400);"><i class="fas fa-globe"></i></div>사회 · 역사 (암기+이해형)</div>
+                <div class="info-row"><div class="info-icon" style="background:var(--lavender-50);color:var(--lavender-400);">1</div><div class="info-content"><div class="title" style="color:var(--lavender-400);">마인드맵으로 전체 구조 잡기</div><div class="desc">핵심 키워드를 연결해서 마인드맵 그리기. 관계를 이해하면 기억이 3배 오래가.</div></div></div>
+                <div class="info-row"><div class="info-icon" style="background:var(--lavender-50);color:var(--lavender-400);">2</div><div class="info-content"><div class="title" style="color:var(--lavender-400);">백지 복습 + 스토리텔링</div><div class="desc">빈 종이에 처음부터 끝까지 써보기. 역사는 인과관계로 스토리를 만들면 자연스럽게 외워져.</div></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 11: 시험 당일 전략 (NEW) -->
+    <div class="page" data-page="L4-11">
+        <div style="padding-top: 24px;">
+            <div class="page-label">참고</div>
+            <h2 class="page-title">시험 당일 전략 🎯</h2>
+            <p class="page-subtitle">시험 공부만큼 중요한 게<br><strong>시험 당일 실전 전략</strong>이야!</p>
+
+            <div class="card">
+                <div class="section-title"><div class="icon" style="background:var(--yellow-50);color:#b45309;"><i class="fas fa-sun"></i></div>시험 전날 & 당일 아침</div>
+                <div class="info-row"><div class="info-icon" style="background:var(--yellow-50);color:#b45309;">🌙</div><div class="info-content"><div class="title" style="color:#b45309;">전날 밤: 새 내용 금지!</div><div class="desc">오답노트, 요약 정리본만 가볍게 훑어보고 일찍 자기.</div></div></div>
+                <div class="info-row"><div class="info-icon" style="background:var(--yellow-50);color:#b45309;">☀️</div><div class="info-content"><div class="title" style="color:#b45309;">당일 아침: 요약노트 10분</div><div class="desc">핵심 공식·키워드만 눈으로 훑기. 새 문제 풀지 말고 이미 아는 것 확인하는 느낌으로.</div></div></div>
+            </div>
+            <div class="card">
+                <div class="section-title"><div class="icon" style="background:var(--coral-50);color:var(--coral-500);"><i class="fas fa-file-pen"></i></div>시험지 받았을 때 루틴</div>
+                <div class="info-row"><div class="info-icon" style="background:var(--coral-50);color:var(--coral-500);">①</div><div class="info-content"><div class="title" style="color:var(--coral-500);">전체 훑어보기 (2분)</div><div class="desc">바로 풀지 말고 문제 수, 배점, 서술형 위치 먼저 파악.</div></div></div>
+                <div class="info-row"><div class="info-icon" style="background:var(--coral-50);color:var(--coral-500);">②</div><div class="info-content"><div class="title" style="color:var(--coral-500);">쉬운 문제부터 정복</div><div class="desc">확실히 아는 문제 먼저 풀어서 시간 확보. 어려운 문제에 붙잡히는 게 최악!</div></div></div>
+                <div class="info-row"><div class="info-icon" style="background:var(--coral-50);color:var(--coral-500);">③</div><div class="info-content"><div class="title" style="color:var(--coral-500);">모르면 ★ 표시하고 넘기기</div><div class="desc">3분 고민해도 모르면 넘기기. 나머지 다 풀고 돌아오면 의외로 풀리는 경우 많아.</div></div></div>
+            </div>
+            <div class="highlight-box">
+                <div class="title">⚠️ 시험 흔한 실수 TOP 5</div>
+                <div class="desc">① <strong>"~아닌 것은?" 놓치기</strong> — 문제 끝까지 읽기<br>② <strong>단위 실수</strong> — cm↔m, 분↔초 변환 체크<br>③ <strong>OMR 밀려쓰기</strong> — 5문제마다 확인<br>④ <strong>계산 검산 안 하기</strong> — 마지막 5분은 반드시 검산<br>⑤ <strong>서술형 키워드 누락</strong> — 채점 기준 키워드 꼭 포함</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page" data-page="L4-12">
+        <div style="padding-top: 24px; text-align: center;">
+            <div class="page-label">전체 프로그램 완료!</div>
+
+            <div class="completion-badge">
+                <div class="big-emoji">🎓</div>
+                <div class="badge-title">자기주도학습 비밀노트<br>완주 완료!</div>
+                <div class="badge-desc">4차시 동안 정말 수고했어!<br>이제 너는 <strong>학습의 비밀</strong>을 알고 있어.</div>
+            </div>
+
+            <div class="card" style="text-align: left;">
+                <div class="section-title"><div class="icon"><i class="fas fa-trophy"></i></div>전체 프로그램 총정리</div>
+                <div class="summary-list">
+                    <div class="summary-item"><div class="summary-num">1</div><div class="summary-text"><strong>1차시</strong>: K-SRL로 나의 학습 유형 발견 + 목표 설정</div></div>
+                    <div class="summary-item"><div class="summary-num">2</div><div class="summary-text"><strong>2차시</strong>: 예습→수업→복습 사이클 + 코넬노트</div></div>
+                    <div class="summary-item"><div class="summary-num">3</div><div class="summary-text"><strong>3차시</strong>: 망각곡선 + 과학적 복습 주기 + 암기 전략</div></div>
+                    <div class="summary-item"><div class="summary-num">4</div><div class="summary-text"><strong>4차시</strong>: 거꾸로 공부법 + 주간 거꾸로 투두 보드 + 학습 루틴</div></div>
+                </div>
+            </div>
+
+            <div class="highlight-box" style="text-align: left;">
+                <div class="title">🌟 마지막 한마디</div>
+                <div class="desc">
+                    방법을 아는 것과 실천하는 것은 달라.<br>
+                    오늘 배운 것 중 <strong>딱 하나만</strong> 골라서<br>
+                    내일부터 시작해봐. 작은 습관이 쌓이면<br>
+                    <strong>너만의 비밀노트</strong>가 완성될 거야! 💪
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+    <div class="nav-bar" style="display:none;" id="navBar_L4">
+        <div class="nav-inner">
+            <button class="btn btn-secondary" id="prevBtn_L4" onclick="L4_prevPage()" style="display: none;">
+                <i class="fas fa-chevron-left"></i> 이전
+            </button>
+            <button class="btn btn-primary" id="nextBtn_L4" onclick="L4_nextPage()">
+                다음 <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+
+<script>
+
+// ══════════════════════════════════════════
+// 글로벌 네비게이션
+// ══════════════════════════════════════════
+var activeLesson = 0; // 0 = 메인 메뉴
+
+function openLesson(num) {
+    activeLesson = num;
+    
+    // 메인 메뉴 숨기기
+    document.getElementById('mainMenu').style.display = 'none';
+    document.getElementById('menuHeader').style.display = 'none';
+    
+    // 모든 lesson 섹션/헤더/네비 숨기기
+    document.querySelectorAll('.lesson-section, .lesson-header, .nav-bar').forEach(el => {
+        el.classList.remove('active');
+        if (el.classList.contains('nav-bar')) el.style.display = 'none';
+    });
+    
+    // 선택된 lesson 표시
+    const section = document.getElementById('lessonSection' + num);
+    const header = document.getElementById('header_L' + num);
+    const nav = document.getElementById('navBar_L' + num);
+    
+    if (section) section.classList.add('active');
+    if (header) { header.style.display = 'block'; header.classList.add('active'); }
+    if (nav) nav.style.display = 'block';
+    
+    // 저장된 페이지 복원 또는 1페이지
+    const savedPage = localStorage.getItem('srl_lesson' + num + '_page');
+    const startPage = savedPage ? parseInt(savedPage) : 1;
+    
+    // 해당 lesson의 showPage 호출
+    if (num === 1) L1_showPage(startPage);
+    else if (num === 2) L2_showPage(startPage);
+    else if (num === 3) L3_showPage(startPage);
+    else if (num === 4) L4_showPage(startPage);
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function backToMenu() {
+    activeLesson = 0;
+    
+    // 모든 lesson 숨기기
+    document.querySelectorAll('.lesson-section, .lesson-header, .nav-bar').forEach(el => {
+        el.classList.remove('active');
+        if (el.classList.contains('nav-bar')) el.style.display = 'none';
+        if (el.classList.contains('lesson-header')) el.style.display = 'none';
+    });
+    
+    // 메인 메뉴 표시
+    document.getElementById('mainMenu').style.display = 'block';
+    document.getElementById('menuHeader').style.display = 'block';
+    
+    // 메뉴 진행률 업데이트
+    updateMenuProgress();
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateMenuProgress() {
+    for (let i = 1; i <= 4; i++) {
+        const saved = localStorage.getItem('srl_lesson' + i + '_page');
+        const pages = [0, 9, 9, 9, 12][i];
+        const current = saved ? parseInt(saved) : 0;
+        const pct = pages > 0 ? Math.round((current / pages) * 100) : 0;
+        
+        const bar = document.getElementById('menuProgress_L' + i);
+        const text = document.getElementById('menuProgressText_L' + i);
+        if (bar) bar.style.width = pct + '%';
+        if (text) text.textContent = pct + '%';
+    }
+}
+
+// ══════════════════════════════════════════
+// localStorage 저장/복원
+// ══════════════════════════════════════════
+var STORAGE_KEY = 'srl_workbook_data';
+
+function saveAllInputs() {
+    const data = {};
+    
+    // 모든 textarea, input[type=text], input[type=range] 저장
+    document.querySelectorAll('textarea, input[type="text"], input[type="range"]').forEach(el => {
+        const id = el.id || el.getAttribute('data-save-id');
+        if (id) {
+            data[id] = el.value;
+        }
+    });
+    
+    // 체크박스 상태
+    document.querySelectorAll('.check-item').forEach((el, idx) => {
+        const box = el.querySelector('.check-box');
+        if (box && box.classList.contains('checked')) {
+            data['check_' + idx] = true;
+        }
+    });
+    
+    // 선택된 칩
+    document.querySelectorAll('.chip.selected, .method-chip.selected').forEach((el, idx) => {
+        data['chip_' + el.textContent.trim()] = true;
+    });
+    
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function loadAllInputs() {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    
+    try {
+        const data = JSON.parse(raw);
+        
+        // input/textarea 복원
+        Object.keys(data).forEach(key => {
+            if (key.startsWith('check_') || key.startsWith('chip_')) return;
+            const el = document.getElementById(key) || document.querySelector('[data-save-id="' + key + '"]');
+            if (el) el.value = data[key];
+        });
+        
+        // 체크박스 복원
+        document.querySelectorAll('.check-item').forEach((el, idx) => {
+            if (data['check_' + idx]) {
+                const box = el.querySelector('.check-box');
+                if (box) box.classList.add('checked');
+            }
+        });
+        
+    } catch(e) {
+        console.warn('데이터 복원 실패:', e);
+    }
+}
+
+function saveStudentInfo() {
+    const info = {
+        school: document.getElementById('studentSchool')?.value || '',
+        class: document.getElementById('studentClass')?.value || '',
+        number: document.getElementById('studentNumber')?.value || '',
+        name: document.getElementById('studentName')?.value || '',
+    };
+    localStorage.setItem('srl_student_info', JSON.stringify(info));
+}
+
+function loadStudentInfo() {
+    const raw = localStorage.getItem('srl_student_info');
+    if (!raw) return;
+    try {
+        const info = JSON.parse(raw);
+        if (info.school) document.getElementById('studentSchool').value = info.school;
+        if (info.class) document.getElementById('studentClass').value = info.class;
+        if (info.number) document.getElementById('studentNumber').value = info.number;
+        if (info.name) document.getElementById('studentName').value = info.name;
+    } catch(e) {}
+}
+
+function resetAllData() {
+    if (!confirm('모든 입력 데이터를 초기화할까요?\n(학생 정보 + 모든 차시 활동 내용이 삭제됩니다)')) return;
+    
+    // localStorage 전체 삭제 (srl_ 접두어만)
+    Object.keys(localStorage).forEach(key => {
+        if (key.startsWith('srl_')) localStorage.removeItem(key);
+    });
+    localStorage.removeItem(STORAGE_KEY);
+    
+    // 입력 필드 초기화
+    document.querySelectorAll('textarea, input[type="text"]').forEach(el => el.value = '');
+    document.querySelectorAll('.check-box').forEach(el => el.classList.remove('checked'));
+    document.querySelectorAll('.chip.selected').forEach(el => el.classList.remove('selected'));
+    
+    updateMenuProgress();
+    alert('초기화 완료!');
+}
+
+// Auto-save: input/textarea 변경 시 자동 저장 + 고유 ID 부여
+function initAutoSave() {
+    let counter = 0;
+    document.querySelectorAll('textarea, input[type="text"]').forEach(el => {
+        if (!el.id && !el.getAttribute('data-save-id')) {
+            el.setAttribute('data-save-id', 'field_' + (counter++));
+        }
+        el.addEventListener('input', debounce(saveAllInputs, 500));
+    });
+    
+    // 체크 아이템 클릭 시에도 저장
+    document.querySelectorAll('.check-item').forEach(el => {
+        el.addEventListener('click', () => setTimeout(saveAllInputs, 100));
+    });
+}
+
+function debounce(fn, ms) {
+    let timer;
+    return function(...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this, args), ms);
+    };
+}
+
+
+// ── 1차시 스크립트 ──
+// ── Page Navigation ──
+    var L1_totalPages = 9;
+    var L1_currentPage = 1;
+
+    function L1_showPage(n) {
+        document.querySelectorAll('[data-page^="L1-"]').forEach(function(p) { p.classList.remove('active'); });
+        const target = document.querySelector(`[data-page="L1-${n}"]`);
+        if (target) target.classList.add('active');
+
+        L1_currentPage = n;
+        var cp1 = document.getElementById('currentPage_L1'); if(cp1) cp1.textContent = n;
+        var pf1 = document.getElementById('progressFill_L1'); if(pf1) pf1.style.width = (n / L1_totalPages * 100) + '%';
+
+        // Button visibility
+        var pb1 = document.getElementById('prevBtn_L1'); if(pb1) pb1.style.display = n === 1 ? 'none' : 'block';
+        const nextBtn = document.getElementById('nextBtn_L1');
+        if (n === L1_totalPages) {
+            nextBtn.innerHTML = '처음으로 <i class="fas fa-rotate-left"></i>';
+        } else {
+            nextBtn.innerHTML = '다음 <i class="fas fa-chevron-right"></i>';
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // 페이지 변경 시 localStorage 저장
+    localStorage.setItem('srl_lesson1_page', L1_currentPage);
+
+    }
+
+    function L1_nextPage() {
+        if (L1_currentPage === L1_totalPages) {
+            L1_showPage(1);
+        } else {
+            L1_showPage(L1_currentPage + 1);
+        }
+    }
+
+    function L1_prevPage() {
+        if (L1_currentPage > 1) L1_showPage(L1_currentPage - 1);
+    }
+
+    // ── Chip Toggle ──
+    function L1_toggleChip(el) {
+        el.classList.toggle('selected');
+    }
+
+    // ── K-SRL Mini Diagnostic (8 Questions) ──
+    const srlQuestions = [
+        { id:1, type:'C', text:"새로운 내용을 배울 때 나의 말로 요약해본다." },
+        { id:2, type:'C', text:"이전에 배운 지식과 새로운 지식을 연결지어 생각한다." },
+        { id:3, type:'C', text:"중요한 개념은 다이어그램이나 표로 구조화한다." },
+        { id:4, type:'C', text:"암기할 때 앞글자를 따거나 스토리를 만들어 외운다." },
+        { id:5, type:'C', text:"글을 읽을 때 중심 문장과 뒷받침 문장을 구분한다." },
+        { id:6, type:'C', text:"문제의 요구사항이 무엇인지 정확히 파악하고 접근한다." },
+        { id:7, type:'C', text:"다양한 사례를 통해 추상적인 개념을 이해하려고 한다." },
+        { id:8, type:'C', text:"틀린 문제는 해설을 보지 않고 스스로 다시 풀어본다." },
+        { id:9, type:'M', text:"공부를 시작하기 전에 구체적인 목표와 계획을 세운다." },
+        { id:10, type:'M', text:"내가 무엇을 알고 무엇을 모르는지 명확히 구분할 수 있다." },
+        { id:11, type:'M', text:"공부하는 도중 내 집중력이나 이해도를 수시로 점검한다." },
+        { id:12, type:'M', text:"계획대로 안 되면 원인을 분석하고 계획을 수정한다." },
+        { id:13, type:'M', text:"시험 후에는 예상 점수와 실제 점수의 차이를 분석한다." },
+        { id:14, type:'M', text:"나에게 효과적인 공부 시간대와 장소를 알고 있다." },
+        { id:15, type:'M', text:"어려운 과제를 만나면 적절한 전략을 선택해 적용한다." },
+        { id:16, type:'V', text:"공부하는 내용 자체가 흥미롭고 재미있다고 느낀다." },
+        { id:17, type:'V', text:"새로운 것을 배우는 것은 나의 성장에 도움이 된다고 믿는다." },
+        { id:18, type:'V', text:"어려운 문제라도 노력하면 풀 수 있다는 자신감이 있다." },
+        { id:19, type:'V', text:"실패하더라도 그것을 배움의 기회로 여긴다." },
+        { id:20, type:'V', text:"나의 미래 장래희망이나 목표를 위해 공부가 필요하다고 느낀다." },
+        { id:21, type:'V', text:"누가 시키지 않아도 스스로 필요성을 느껴서 공부한다." },
+        { id:22, type:'V', text:"성적이나 보상보다 내 실력 향상 자체에 만족감을 느낀다." },
+        { id:23, type:'V', text:"스트레스를 받아도 공부의 끈을 완전히 놓지 않는다." },
+        { id:24, type:'B', text:"공부할 때 스마트폰이나 방해요소를 멀리 치워둔다." },
+        { id:25, type:'B', text:"매일 일정한 시간에 규칙적으로 책상에 앉는다." },
+        { id:26, type:'B', text:"어려운 과목을 회피하지 않고 먼저 시도한다." },
+        { id:27, type:'B', text:"모르는 것이 생기면 선생님이나 친구에게 적극적으로 질문한다." },
+        { id:28, type:'B', text:"도움이 되는 참고서, 인강, 스터디 자료를 스스로 찾아본다." },
+        { id:29, type:'B', text:"계획한 공부 분량은 피곤하더라도 끝까지 마친다." },
+        { id:30, type:'B', text:"시험 기간이 아닐 때도 꾸준히 예습/복습을 한다." }
+    ];
+    const srlAnswers = new Array(30).fill(null);
+    var srlPage = 0;
+    var SRL_PER_PAGE = 5;
+    var SRL_TOTAL_PAGES = Math.ceil(srlQuestions.length / SRL_PER_PAGE);
+
+    // Persona DB (same as original)
+    const PERSONAS = {
+        "1111": { emoji: "👑", title: "육각형 갓벽러", desc: "스스로 계획하고 실행하며, 부족한 점까지 찾아 메우는 완성형 학습자입니다.", sol: "지금의 훌륭한 밸런스를 유지하면서, 남을 가르쳐보는 '설명 시뮬레이션'으로 완벽함을 더해보세요." },
+        "1011": { emoji: "🐂", title: "우직한 불도저", desc: "열정과 실천력은 누구보다 뛰어나지만, 가끔 전체적인 숲(계획/점검)을 놓칠 때가 있어요.", sol: "무작정 시작하기 전에, 딱 5분만 목차를 보며 오늘 공부할 내비게이션을 켜보세요." },
+        "0111": { emoji: "⚙️", title: "효율 깎는 장인", desc: "계획과 의지는 훌륭하지만, 머릿속에 지식을 엮어 넣는 본질적인 이해(인지 전략)가 살짝 아쉬워요.", sol: "눈으로만 읽지 말고, '왜 그럴까?'를 세 번 질문하며 지식의 뿌리를 파헤쳐보세요." },
+        "0011": { emoji: "💪", title: "순수 열정 만수르", desc: "의지는 1등! 엉덩이도 무겁지만, 나에게 맞는 공부법을 아직 찾지 못해 조금 억울한 상황이에요.", sol: "깜지 쓰기 같은 단순 암기를 멈추고, 빈 종이에 배운 것을 떠올려 적는 '백지 복습'을 시작해볼까요?" },
+        "1110": { emoji: "📋", title: "내일의 전략가", desc: "머리도 좋고 의욕도 충분하지만, 막상 책상에 앉기까지의 과정(환경 통제)이 가장 큰 숙제네요.", sol: "공부의 적은 내 안에 있는 게 아니라 책상 위 스마트폰에 있어요. 1시간만 거실에 폰을 유배 보내보세요." },
+        "1101": { emoji: "📚", title: "영혼 없는 모범생", desc: "해야 할 일은 꼼꼼하게 잘 해내지만, 마음속 깊은 곳의 '진짜 공부할 이유(동기)'가 텅 비어있을 수 있어요.", sol: "점수를 위한 공부를 넘어, 내가 진짜 흥미를 느끼는 관심 분야를 다큐멘터리나 책으로 가볍게 탐색해보세요." },
+        "1100": { emoji: "⚡", title: "아드레날린 벼락치기러", desc: "집중력과 요령은 천재적이지만, 시험 직전에만 발동되는 한정판 스킬이라 기복이 심해요.", sol: "벼락치기가 안 통하는 시기가 반드시 와요. 스터디 그룹처럼 '안 하면 곤란해지는' 강제성 있는 환경이 필요해요." },
+        "1010": { emoji: "🎸", title: "고집불통 마이웨이", desc: "내가 좋아하는 과목은 미친 듯이 파고들지만, 하기 싫은 과목은 철저히 외면하는 경향이 있어요.", sol: "제일 피하고 싶은 과목을 하루 공부의 가장 첫 번째 순서로 딱 20분만 배치해 보세요." },
+        "0110": { emoji: "📝", title: "계획만 3시간째", desc: "플래너를 세우고 정보 수집하는 능력은 최고! 하지만 그 에너지를 실천으로 옮기는 엔진이 멈춰있어요.", sol: "거창한 계획은 이제 그만! '오늘 딱 한 과목, 10문제 풀기'처럼 당장 할 수 있는 초단기 목표를 세워요." },
+        "1001": { emoji: "🤖", title: "기계적 문제풀이 봇", desc: "성실하게 기출문제를 많이 풀지만, '왜 틀렸는지' 깊게 분석하는 메타인지와 동기가 부족해요.", sol: "문제 100개 풀기 금지! 하루에 딱 10개를 풀더라도 완벽한 오답노트를 작성하는 게 진짜 실력이 돼요." },
+        "0101": { emoji: "😰", title: "완벽주의형 쫄보", desc: "실패를 두려워해서 꼼꼼하게 계획하고 쉬운 문제만 풀려는 경향이 있어요. 도전을 주저하고 있네요.", sol: "틀리는 건 부끄러운 게 아니라, 내 약점을 발견한 행운이에요! 오늘은 조금 어려운 문제에 용기 내어 도전해봐요." },
+        "1000": { emoji: "💎", title: "숨은 원석형", desc: "충분히 잘할 수 있는 똑똑한 머리(인지)를 가졌는데, 지금은 여러 이유로 공부와 거리를 두고 쉬고 있네요.", sol: "지금은 큰 목표보다, 내가 가장 만만하게 생각하는 과목 하나만 골라서 아주 작은 성취감을 맛보는 게 중요해요." },
+        "0100": { emoji: "🪞", title: "팩폭 수집가", desc: "내가 무엇을 안 하고 있는지, 내 문제점이 무엇인지 스스로 너무나 잘 알지만 행동으로 옮기기가 힘든 상태예요.", sol: "자기반성은 이제 충분해요! 자책할 시간에 영단어 1개를 외우는 단순하고 기계적인 행동이 멘탈에 도움이 됩니다." },
+        "0010": { emoji: "🌙", title: "마음만은 서울대", desc: "항상 '내일부터 진짜 한다'고 굳게 다짐하지만, 작심삼일로 끝나 속상했던 적이 많을 거예요.", sol: "내일 말고 오늘! 딱 10분만 책상에 버티고 앉아보세요. 작심삼일을 10번 반복하면 한 달이 됩니다." },
+        "0001": { emoji: "🪑", title: "껍데기만 출석형", desc: "책상에 앉아있거나 학원에 가는 등 겉모습은 성실하지만, 머릿속으로 진짜 정보가 안 들어오고 있어요.", sol: "진도를 무리하게 따라가기보다, 용기 내어 1년 전 복습 인강부터 다시 들으며 기초 공사를 튼튼히 해야 할 때예요." },
+        "0000": { emoji: "🔋", title: "로그아웃 상태", desc: "지금은 공부에 대한 의욕도, 방법도 모두 멈춰버린 방전 상태예요. 많이 지쳐있거나 이유를 못 찾은 것 같아요.", sol: "공부법보다 멘탈 케어가 먼저예요! 내가 진짜 좋아하는 게 뭔지, 무엇을 할 때 행복한지 나를 탐색하는 시간을 먼저 가져봐요." }
+    };
+
+    function renderSRL() {
+        var container = document.getElementById('srlQuestions');
+        container.innerHTML = '';
+        var startIdx = srlPage * SRL_PER_PAGE;
+        var endIdx = Math.min(startIdx + SRL_PER_PAGE, srlQuestions.length);
+        var info = document.createElement('div');
+        info.style.cssText = 'text-align:center;margin-bottom:12px;font-size:12px;color:var(--text-light);font-weight:600;';
+        info.textContent = (srlPage+1) + ' / ' + SRL_TOTAL_PAGES + ' 페이지 (Q' + (startIdx+1) + '~Q' + endIdx + ')';
+        container.appendChild(info);
+        for (var idx = startIdx; idx < endIdx; idx++) {
+            var q = srlQuestions[idx];
+            var div = document.createElement('div');
+            div.className = 'srl-question';
+            var btns = '';
+            for (var v = 1; v <= 5; v++) {
+                var sel = srlAnswers[idx] === v ? ' selected' : '';
+                btns += '<button class="scale-btn' + sel + '" onclick="L1_selectSRL(' + idx + ',' + v + ',this)">' + v + '</button>';
+            }
+            div.innerHTML = '<div class="srl-q-num">Q' + (idx+1) + '. <span style="color:var(--text-light);font-weight:500;">' + (q.type==='C'?'인지':q.type==='M'?'초인지':q.type==='V'?'동기':'행동') + '</span></div><div class="srl-q-text">' + q.text + '</div><div class="scale-row">' + btns + '</div><div class="scale-labels"><span>전혀 아니다</span><span>매우 그렇다</span></div>';
+            container.appendChild(div);
+        }
+        var nav = document.createElement('div');
+        nav.style.cssText = 'display:flex;gap:10px;justify-content:center;margin-top:16px;';
+        if (srlPage > 0) nav.innerHTML += '<button style="padding:10px 24px;font-size:13px;font-weight:700;border:none;background:var(--warm-gray);color:var(--text-mid);border-radius:10px;cursor:pointer;font-family:inherit;" onclick="srlPage--;renderSRL();">← 이전</button>';
+        if (srlPage < SRL_TOTAL_PAGES - 1) nav.innerHTML += '<button style="padding:10px 24px;font-size:13px;font-weight:700;border:none;background:var(--primary-500);color:#fff;border-radius:10px;cursor:pointer;font-family:inherit;" onclick="srlPage++;renderSRL();">다음 →</button>';
+        container.appendChild(nav);
+    }
+
+    function selectSRL(idx, val, el) {
+        srlAnswers[idx] = val;
+        const parent = el.parentElement;
+        parent.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
+        el.classList.add('selected');
+    }
+
+    function calculateSRL() {
+        if (srlAnswers.includes(null)) {
+            alert('모든 문항에 답해주세요!');
+            return;
+        }
+        let sum = { C: 0, M: 0, V: 0, B: 0 };
+        let count = { C: 0, M: 0, V: 0, B: 0 };
+
+        srlQuestions.forEach((q, idx) => {
+            sum[q.type] += srlAnswers[idx];
+            count[q.type]++;
+        });
+
+        const avg = {
+            C: (sum.C / count.C).toFixed(1),
+            M: (sum.M / count.M).toFixed(1),
+            V: (sum.V / count.V).toFixed(1),
+            B: (sum.B / count.B).toFixed(1)
+        };
+
+        const code =
+            (avg.C >= 3.5 ? '1' : '0') +
+            (avg.M >= 3.4 ? '1' : '0') +
+            (avg.V >= 3.8 ? '1' : '0') +
+            (avg.B >= 3.2 ? '1' : '0');
+
+        const persona = PERSONAS[code] || PERSONAS["0000"];
+
+        document.getElementById('resultEmoji').textContent = persona.emoji;
+        document.getElementById('resultTitle').textContent = persona.title;
+        document.getElementById('resultDesc').textContent = persona.desc;
+        document.getElementById('resultSol').textContent = persona.sol;
+        document.getElementById('resultAdvice').style.display = 'block';
+
+        const badgeRow = document.getElementById('badgeRow');
+        badgeRow.innerHTML = `
+            <span class="badge ${code[0]==='1'?'high':'low'}">인지 ${avg.C}</span>
+            <span class="badge ${code[1]==='1'?'high':'low'}">초인지 ${avg.M}</span>
+            <span class="badge ${code[2]==='1'?'high':'low'}">동기 ${avg.V}</span>
+            <span class="badge ${code[3]==='1'?'high':'low'}">행동 ${avg.B}</span>
+        `;
+
+        L1_showPage(7);
+    }
+
+    // Init
+    renderSRL();
+
+// ── 2차시 스크립트 ──
+var L2_totalPages = 9;
+    var L2_currentPage = 1;
+
+    function L2_showPage(n) {
+        document.querySelectorAll('[data-page^="L2-"]').forEach(function(p) { p.classList.remove('active'); });
+        const target = document.querySelector(`[data-page="L2-${n}"]`);
+        if (target) target.classList.add('active');
+
+        L2_currentPage = n;
+        var cp2 = document.getElementById('currentPage_L2'); if(cp2) cp2.textContent = n;
+        var pf2 = document.getElementById('progressFill_L2'); if(pf2) pf2.style.width = (n / L2_totalPages * 100) + '%';
+
+        var pb2 = document.getElementById('prevBtn_L2'); if(pb2) pb2.style.display = n === 1 ? 'none' : 'block';
+        const nextBtn = document.getElementById('nextBtn_L2');
+        if (n === L2_totalPages) {
+            nextBtn.innerHTML = '처음으로 <i class="fas fa-rotate-left"></i>';
+        } else {
+            nextBtn.innerHTML = '다음 <i class="fas fa-chevron-right"></i>';
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // 페이지 변경 시 localStorage 저장
+    localStorage.setItem('srl_lesson2_page', L2_currentPage);
+
+    }
+
+    function L2_nextPage() {
+        if (L2_currentPage === L2_totalPages) L2_showPage(1);
+        else L2_showPage(L2_currentPage + 1);
+    }
+
+    function L2_prevPage() {
+        if (L2_currentPage > 1) L2_showPage(L2_currentPage - 1);
+    }
+
+    function L2_toggleCheck(el) {
+        el.classList.toggle('checked');
+    }
+
+// ── 3차시 스크립트 ──
+var L3_totalPages = 9;
+    var L3_currentPage = 1;
+
+    function L3_showPage(n) {
+        document.querySelectorAll('[data-page^="L3-"]').forEach(function(p) { p.classList.remove('active'); });
+        const target = document.querySelector(`[data-page="L3-${n}"]`);
+        if (target) target.classList.add('active');
+        L3_currentPage = n;
+        var cp3 = document.getElementById('currentPage_L3'); if(cp3) cp3.textContent = n;
+        var pf3 = document.getElementById('progressFill_L3'); if(pf3) pf3.style.width = (n / L3_totalPages * 100) + '%';
+        var pb3 = document.getElementById('prevBtn_L3'); if(pb3) pb3.style.display = n === 1 ? 'none' : 'block';
+        const nextBtn = document.getElementById('nextBtn_L3');
+        if (n === L3_totalPages) {
+            nextBtn.innerHTML = '처음으로 <i class="fas fa-rotate-left"></i>';
+        } else {
+            nextBtn.innerHTML = '다음 <i class="fas fa-chevron-right"></i>';
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // 페이지 변경 시 localStorage 저장
+    localStorage.setItem('srl_lesson3_page', L3_currentPage);
+
+    }
+    function L3_nextPage() { if (L3_currentPage === L3_totalPages) L3_showPage(1); else L3_showPage(L3_currentPage + 1); }
+    function L3_prevPage() { if (L3_currentPage > 1) L3_showPage(L3_currentPage - 1); }
+
+    function L3_toggleMethod(el) {
+        el.classList.toggle('open');
+    }
+
+// ── 4차시 스크립트 ──
+var L4_totalPages = 12;
+    var L4_currentPage = 1;
+
+    function L4_showPage(n) {
+        document.querySelectorAll('[data-page^="L4-"]').forEach(function(p) { p.classList.remove('active'); });
+        const target = document.querySelector(`[data-page="L4-${n}"]`);
+        if (target) target.classList.add('active');
+        L4_currentPage = n;
+        var cp4 = document.getElementById('currentPage_L4'); if(cp4) cp4.textContent = n;
+        var pf4 = document.getElementById('progressFill_L4'); if(pf4) pf4.style.width = (n / L4_totalPages * 100) + '%';
+        var pb4 = document.getElementById('prevBtn_L4'); if(pb4) pb4.style.display = n === 1 ? 'none' : 'block';
+        const nextBtn = document.getElementById('nextBtn_L4');
+        nextBtn.innerHTML = n === L4_totalPages ? '처음으로 <i class="fas fa-rotate-left"></i>' : '다음 <i class="fas fa-chevron-right"></i>';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // 페이지 변경 시 localStorage 저장
+    localStorage.setItem('srl_lesson4_page', L4_currentPage);
+
+    }
+    function L4_nextPage() { if (L4_currentPage === L4_totalPages) L4_showPage(1); else L4_showPage(L4_currentPage + 1); }
+    function L4_prevPage() { if (L4_currentPage > 1) L4_showPage(L4_currentPage - 1); }
+    
+    // 체크박스 클릭 이벤트 (input 내부 클릭 시 취소선 발동 방지)
+    function L4_toggleCheck(el) {
+        if(event.target.tagName.toLowerCase() === 'input') return;
+        el.classList.toggle('checked'); 
+    }
+
+    // 불안 슬라이더
+    function updateAnxiety(val) {
+        document.getElementById('anxietyValue').textContent = val + ' / 10';
+        const colors = ['var(--primary-500)','var(--primary-500)','var(--primary-400)','var(--primary-400)','#b45309','#b45309','var(--coral-400)','var(--coral-400)','var(--coral-500)','var(--coral-500)','var(--coral-500)'];
+        document.getElementById('anxietyValue').style.color = colors[val];
+    }
+
+    // 호흡법
+    let breathingActive = false;
+    function startBreathing() {
+        if (breathingActive) return;
+        breathingActive = true;
+        const circle = document.getElementById('breathCircle');
+        const text = document.getElementById('breathText');
+        const sub = document.getElementById('breathSub');
+        let phase = 0;
+        const phases = [
+            { text: '들이쉬기', sub: '4초', cls: 'inhale', dur: 4000 },
+            { text: '멈추기', sub: '7초', cls: '', dur: 7000 },
+            { text: '내쉬기', sub: '8초', cls: 'exhale', dur: 8000 }
+        ];
+        let round = 0;
+        function runPhase() {
+            if (round >= 3) { circle.className = 'breath-circle'; text.textContent = '완료!'; sub.textContent = '터치하면 다시 시작'; breathingActive = false; return; }
+            const p = phases[phase];
+            circle.className = 'breath-circle ' + p.cls;
+            text.textContent = p.text; sub.textContent = p.sub;
+            setTimeout(() => { phase++; if (phase >= 3) { phase = 0; round++; } runPhase(); }, p.dur);
+        }
+        runPhase();
+    }
+
+    // 로드맵 정보 탭 (p5 전용)
+    function showWeek(n) {
+        document.querySelectorAll('.page[data-page="L4-5"] .week-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.page[data-page="L4-5"] .week-panel').forEach(p => p.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+        document.querySelector(`.page[data-page="L4-5"] .week-panel[data-week="${n}"]`).classList.add('active');
+    }
+
+    // 3일 역산 시뮬레이터 연동 함수 (p7 전용)
+    function runSimulator() {
+        const d1 = document.getElementById('day1Input').value;
+        const d2 = document.getElementById('day2Input').value;
+        const d3 = document.getElementById('day3Input').value;
+        
+        document.getElementById('simD1').textContent = d1 || '1일차 과목';
+        document.getElementById('simD2').textContent = d2 || '2일차 과목';
+        document.getElementById('simD3').textContent = d3 || '3일차 과목';
+    }
+
+    // 주간 투두 보드 탭 전환 함수 (p7 전용)
+    function showPlanWeek(n) {
+        document.querySelectorAll('.page[data-page="L4-7"] .week-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.page[data-page="L4-7"] .week-panel').forEach(p => p.classList.remove('active'));
+        var pt = document.getElementById('planTab' + n); if(pt) pt.classList.add('active');
+        document.querySelector(`.page[data-page="L4-7"] .week-panel[data-plan="${n}"]`).classList.add('active');
+    }
+
+// ══════════════════════════════════════════
+// 초기화
+// ══════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', function() {
+    loadStudentInfo();
+    loadAllInputs();
+    updateMenuProgress();
+    initAutoSave();
+});
+
+// ── 함수 별칭 (onclick에서 L*_ 접두어로 호출) ──
+var L1_calculateSRL = calculateSRL;
+var L1_selectSRL = selectSRL;
+var L4_updateAnxiety = updateAnxiety;
+var L4_startBreathing = startBreathing;
+var L4_runSimulator = runSimulator;
+var L4_showPlanWeek = showPlanWeek;
+function L4_showWeek(n) {
+    var tabs = document.querySelectorAll('.page[data-page="L4-5"] .week-tab');
+    var panels = document.querySelectorAll('.page[data-page="L4-5"] .week-panel');
+    tabs.forEach(function(t) { t.classList.remove('active'); });
+    panels.forEach(function(p) { p.classList.remove('active'); });
+    if (tabs[n-1]) tabs[n-1].classList.add('active');
+    var panel = document.querySelector('.page[data-page="L4-5"] .week-panel[data-week="' + n + '"]');
+    if (panel) panel.classList.add('active');
+}
+</script>
+
+</body>
+</html>
